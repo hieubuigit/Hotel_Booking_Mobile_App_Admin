@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/template"
-    tools:context=".MainDangNhap">
+    tools:context=".DangNhap">
 
     <ImageView
         android:layout_width="196dp"
@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+
             android:background="@color/white"/>
     </LinearLayout>
 

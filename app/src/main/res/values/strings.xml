@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">HotelBookingAppOfAdmin</string>
+    <string name="app_name">Admin</string>
     <string name="dangnhap">Đăng nhập</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_khachsan">Khách Sạn</string>
+    <string name="title_nguoidung">Người Dùng</string>
+    <string name="title_thongke">Thống Kê</string>
+
 </resources>
