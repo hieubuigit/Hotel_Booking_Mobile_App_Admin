@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/template"
-    tools:context=".DangNhap">
+    tools:context=".ui.DangNhap">
 
     <ImageView
         android:layout_width="196dp"
@@ -26,15 +26,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên Đăng nhập"
+            android:fontFamily="@font/open_sans_bold"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            />
 
         <EditText
+            android:id="@+id/edtTenDangNhap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-
-            android:background="@color/white"/>
+            android:background="@drawable/edittext"/>
     </LinearLayout>
 
     <LinearLayout
@@ -44,22 +45,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="96dp"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_bold"
             android:text="Mật khẩu"
-            android:textSize="14sp"
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edtMatKhau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@color/white"/>
+            android:background="@drawable/edittext"/>
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:text="@string/dangnhap"
         android:layout_marginTop="50dp"
         android:layout_gravity="center"

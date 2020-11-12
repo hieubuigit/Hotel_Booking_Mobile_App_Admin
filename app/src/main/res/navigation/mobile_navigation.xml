@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_khachsan">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_khachsan"
         android:name="com.chuyende.hotelbookingappofadmin.ui.khachsan.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/title_khachsan"
+        tools:layout="@layout/fragment_khachsan" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_nguoidung"
         android:name="com.chuyende.hotelbookingappofadmin.ui.nguoidung.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="@string/title_nguoidung"
+        tools:layout="@layout/fragment_nguoidung" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_thongke"
         android:name="com.chuyende.hotelbookingappofadmin.ui.thongke.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:label="@string/title_thongke"
+        tools:layout="@layout/fragment_thongke" />
 </navigation>
