@@ -1,4 +1,4 @@
-package com.chuyende.hotelbookingappofadmin.ui.notifications;
+package com.chuyende.hotelbookingappofadmin.ui.thongke;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

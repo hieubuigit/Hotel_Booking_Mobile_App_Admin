@@ -1,4 +1,4 @@
-package com.chuyende.hotelbookingappofadmin.ui.home;
+package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

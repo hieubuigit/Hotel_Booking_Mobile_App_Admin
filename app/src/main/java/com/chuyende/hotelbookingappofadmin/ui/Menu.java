@@ -1,6 +1,8 @@
-package com.chuyende.hotelbookingappofadmin;
+package com.chuyende.hotelbookingappofadmin.ui;
 
 import android.os.Bundle;
+
+import com.chuyende.hotelbookingappofadmin.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

@@ -1,4 +1,4 @@
-package com.chuyende.hotelbookingappofadmin.ui.notifications;
+package com.chuyende.hotelbookingappofadmin.ui.thongke;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
