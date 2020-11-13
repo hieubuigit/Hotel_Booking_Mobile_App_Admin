@@ -26,11 +26,11 @@ public class FragmentKhachSan extends Fragment {
         khachSanViewModel =
                 new ViewModelProvider(this).get(KhachSanViewModel.class);
         View root = inflater.inflate(R.layout.fragment_khachsan, container, false);
-//        final EditText edtSearchKS = root.findViewById(R.id.edtTimKiemKhachSan);
-//        final ImageButton btnSearchKS = root.findViewById(R.id.btnTimKiemKhachSan);
-//        final Button btnDangXuat = root.findViewById(R.id.btnDangXuat);
-//        final Spinner spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
-//        final ListView lvKhachSan = root.findViewById(R.id.lvKhachSan);
+        final EditText edtSearchKS = root.findViewById(R.id.edtTimKiemKhachSan);
+        final ImageButton btnSearchKS = root.findViewById(R.id.btnTimKiemKhachSan);
+        final Button btnDangXuat = root.findViewById(R.id.btnDangXuat);
+        final Spinner spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
+        final ListView lvKhachSan = root.findViewById(R.id.lvKhachSan);
         return root;
     }
 }

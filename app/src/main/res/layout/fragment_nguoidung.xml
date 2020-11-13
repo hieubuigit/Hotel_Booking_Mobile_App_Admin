@@ -16,7 +16,7 @@
         android:layout_margin="20dp"
         android:layout_gravity="center">
         <EditText
-            android:id="@+id/edtTimKiemKhachSan"
+            android:id="@+id/edtTimKiemNguoiDung"
             android:layout_width="189dp"
             android:layout_height="50dp"
             android:background="@drawable/edittext_search"
@@ -25,7 +25,7 @@
             />
 
         <ImageButton
-            android:id="@+id/btnTimKiemKhachSan"
+            android:id="@+id/btnTimKiemNguoiDung"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/button_search"
@@ -47,7 +47,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/lvKhachSan"
+            android:id="@+id/lvNguoiDung"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"/>

@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +25,10 @@ public class FragmentNguoiDung extends Fragment {
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_nguoidung, container, false);
-//        final TextView textView = root.findViewById(R.id.text_dashboard);
+        final EditText edtSearchND = root.findViewById(R.id.edtTimKiemNguoiDung);
+        final ImageButton btnSearchND = root.findViewById(R.id.btnTimKiemNguoiDung);
+        final Button btnDangXuat = root.findViewById(R.id.btnDangXuat);
+        final ListView lvNguoiDung = root.findViewById(R.id.lvNguoiDung);
         return root;
     }
 }
