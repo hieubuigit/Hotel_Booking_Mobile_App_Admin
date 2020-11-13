@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HotelBookingAppOfAdmin" >
         <activity android:name=".ui.DangNhap"></activity>
-        <activity android:name=".ui.Menu"
-            android:label="@string/title_activity_menu" >
+        <activity  android:name=".ui.Menu" android:label="@string/title_activity_menu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

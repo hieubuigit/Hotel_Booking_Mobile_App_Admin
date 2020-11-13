@@ -31,12 +31,6 @@ public class FragmentKhachSan extends Fragment {
 //        final Button btnDangXuat = root.findViewById(R.id.btnDangXuat);
 //        final Spinner spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
 //        final ListView lvKhachSan = root.findViewById(R.id.lvKhachSan);
-        khachSanViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-            }
-        });
         return root;
     }
 }
