@@ -9,7 +9,8 @@
         android:id="@+id/navigation_khachsan"
         android:name="com.chuyende.hotelbookingappofadmin.ui.khachsan.FragmentKhachSan"
         android:label="@string/title_khachsan"
-        tools:layout="@layout/fragment_khachsan" />
+        tools:layout="@layout/fragment_khachsan"
+        />
 
     <fragment
         android:id="@+id/navigation_nguoidung"

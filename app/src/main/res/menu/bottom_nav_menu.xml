@@ -4,7 +4,8 @@
     <item
         android:id="@+id/navigation_khachsan"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_khachsan"/>
+        android:title="@string/title_khachsan"
+        />
 
     <item
         android:id="@+id/navigation_nguoidung"
