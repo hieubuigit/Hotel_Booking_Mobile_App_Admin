@@ -12,5 +12,6 @@
     <string name="ngaysinh">Ngày Sinh:</string>
     <string name="gioitinh">Giới tính:</string>
     <string name="quoctich">Quốc tịch:</string>
+    <string name="title_hoten">Họ Tên</string>
 
 </resources>

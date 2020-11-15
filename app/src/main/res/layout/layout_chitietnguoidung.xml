@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/linear_v"
+    android:background="@drawable/template">
+
+    <ImageView
+        android:id="@+id/imgHinhDaiDien"
+        style="@style/image_avatar"
+        android:layout_gravity="center"
+        android:src="@drawable/men"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <LinearLayout
+        style="@style/linear_h"
+        android:layout_margin="10dp">
+
+        <TextView
+            style="@style/tv_model_bold"
+            android:text="@string/title_hoten"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+</LinearLayout>
