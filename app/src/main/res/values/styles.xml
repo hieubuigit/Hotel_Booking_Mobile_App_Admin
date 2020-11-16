@@ -39,9 +39,9 @@
     </style>
 
     <style name="tv_model_regular">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">20dp</item>
-        <item name="android:fontFamily">@font/open_sans_bold</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -50,6 +50,31 @@
         <item name="android:layout_height">20dp</item>
         <item name="android:fontFamily">@font/open_sans_bold</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="tv_regular">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="tv_bold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:fontFamily">@font/open_sans_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="radio_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="linear_h_margin_chitiet">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">20dp</item>
     </style>
 
     <style name="Widget.BottomNavigationView"
@@ -61,4 +86,12 @@
         <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">120dp</item>
     </style>
+
+    <style name="image_khachsan">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">120dp</item>
+    </style>
+
+
+
 </resources>

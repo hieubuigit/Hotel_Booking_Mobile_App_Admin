@@ -13,5 +13,18 @@
     <string name="gioitinh">Giới tính:</string>
     <string name="quoctich">Quốc tịch:</string>
     <string name="title_hoten">Họ Tên</string>
+    <string name="title_ngaysinh">Ngày Sinh</string>
+    <string name="title_gioitinh">Giới tính</string>
+    <string name="rad_nam">Nam</string>
+    <string name="rad_nu">Nữ</string>
+    <string name="title_quoctich">Quốc tịch</string>
+    <string name="title_cmnd">CMND/Hộ chiếu</string>
+    <string name="title_diachi">Địa chỉ</string>
+    <string name="title_email">Email</string>
+    <string name="title_lienlac">Số ĐT</string>
+    <string name="lang_en">Tiếng Anh</string>
+    <string name="lang_vi">Tiếng Việt</string>
+    <string name="luotdat">Lượt đặt</string>
+    <string name="doanhthu">Doanh thu</string>
 
 </resources>
