@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HotelBookingAppOfAdmin" >
-        <activity android:name=".ui.DangNhap"></activity>
-        <activity  android:name=".ui.Menu" android:label="@string/title_activity_menu">
+
+        <activity android:name=".ui.nguoidung.ChiTietNguoiDung" android:label="@string/title_activity_nguoidung"></activity>
+        <activity android:name=".ui.khachsan.ChiTietKhachSan" android:label="@string/title_activity_khachsan"></activity>
+        <activity android:name=".ui.Menu" ></activity>
+        <activity  android:name=".ui.DangNhap">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

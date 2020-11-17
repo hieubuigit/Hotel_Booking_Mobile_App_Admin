@@ -1,14 +1,14 @@
-package com.chuyende.hotelbookingappofadmin.ui.thongke;
+package com.chuyende.hotelbookingappofadmin.ui.nguoidung;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class NguoiDungViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public NguoiDungViewModel() {
 
     }
 

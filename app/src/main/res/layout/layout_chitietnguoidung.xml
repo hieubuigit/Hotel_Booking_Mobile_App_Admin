@@ -1,179 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/linear_v"
-    android:background="@drawable/template">
-
-    <ImageView
-        android:id="@+id/imgHinhDaiDien"
-        style="@style/image_avatar"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/men" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
-        style="@style/linear_h_margin_chitiet"
-        >
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_hoten" />
-
-        <TextView
-            android:id="@+id/tvHoTen"
-            style="@style/tv_regular"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="Phát" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet"
-        >
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_ngaysinh" />
-
-        <TextView
-            android:id="@+id/tvNgaySinh"
-            style="@style/tv_regular"
-            android:layout_marginLeft="28dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="25/11/1996" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet">
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_gioitinh" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp">
-
-            <LinearLayout style="@style/linear_h">
-
-                <RadioButton
-                    android:id="@+id/radNam"
-                    style="@style/radio_button"
-                    android:checked="true"
-                    android:text="@string/rad_nam" />
-
-                <RadioButton
-                    android:id="@+id/radNu"
-                    style="@style/radio_button"
-                    android:layout_marginLeft="70dp"
-                    android:text="@string/rad_nu" />
-            </LinearLayout>
-
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet">
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_quoctich" />
-
-        <TextView
-            android:id="@+id/tvQuocTich"
-            style="@style/tv_regular"
-            android:layout_marginLeft="32dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="Việt Nam" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet"
-        android:layout_height="60dp">
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_width="72dp"
-            android:layout_height="36dp"
+        style="@style/linear_v"
+        android:background="@drawable/template">
+        <ImageView
+            android:id="@+id/imgHinhDaiDien"
+            style="@style/image_avatar"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:text="@string/title_cmnd" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/men" />
 
-        <TextView
-            android:id="@+id/tvCMND"
-            style="@style/tv_regular"
-            android:layout_width="295dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="26dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="11111111" />
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet"
+            >
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_hoten" />
+
+            <TextView
+                android:id="@+id/tvHoTen"
+                style="@style/tv_regular"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="Phát" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet"
+            >
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_ngaysinh" />
+
+            <TextView
+                android:id="@+id/tvNgaySinh"
+                style="@style/tv_regular"
+                android:layout_marginLeft="28dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="25/11/1996" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet">
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_gioitinh" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp">
+
+                <LinearLayout style="@style/linear_h">
+
+                    <RadioButton
+                        android:id="@+id/radNam"
+                        style="@style/radio_button"
+                        android:checked="true"
+                        android:text="@string/rad_nam" />
+
+                    <RadioButton
+                        android:id="@+id/radNu"
+                        style="@style/radio_button"
+                        android:layout_marginLeft="70dp"
+                        android:text="@string/rad_nu" />
+                </LinearLayout>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet">
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_quoctich" />
+
+            <TextView
+                android:id="@+id/tvQuocTich"
+                style="@style/tv_regular"
+                android:layout_marginLeft="32dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="Việt Nam" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet"
+            android:layout_height="60dp">
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_width="72dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="@string/title_cmnd" />
+
+            <TextView
+                android:id="@+id/tvCMND"
+                style="@style/tv_regular"
+                android:layout_width="295dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="26dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="11111111" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet">
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_diachi" />
+
+            <TextView
+                android:id="@+id/tvDiaChi"
+                style="@style/tv_regular"
+                android:layout_marginLeft="51dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="Bình Dương" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet">
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_email" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                style="@style/tv_regular"
+                android:layout_marginLeft="60dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="thanhphat147@gmail.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h_margin_chitiet">
+
+            <TextView
+                style="@style/tv_bold"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/title_lienlac" />
+
+            <TextView
+                android:id="@+id/tvSoDT"
+                style="@style/tv_regular"
+                android:layout_marginLeft="60dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="0971..." />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet">
 
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_diachi" />
-
-        <TextView
-            android:id="@+id/tvDiaChi"
-            style="@style/tv_regular"
-            android:layout_marginLeft="51dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="Bình Dương" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet">
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_email" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            style="@style/tv_regular"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="thanhphat147@gmail.com" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/linear_h_margin_chitiet">
-
-        <TextView
-            style="@style/tv_bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/title_lienlac" />
-
-        <TextView
-            android:id="@+id/tvSoDT"
-            style="@style/tv_regular"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/textview_chitiet"
-            android:gravity="center"
-            android:text="0971..." />
-    </LinearLayout>
-</LinearLayout>
+</ScrollView>

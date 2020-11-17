@@ -36,7 +36,7 @@
             style="@style/button_logout"
             android:text="@string/dangxuat"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/edittext"
+            android:background="@drawable/button_selector"
             />
     </LinearLayout>
 

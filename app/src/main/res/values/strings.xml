@@ -26,5 +26,7 @@
     <string name="lang_vi">Tiếng Việt</string>
     <string name="luotdat">Lượt đặt</string>
     <string name="doanhthu">Doanh thu</string>
+    <string name="title_activity_khachsan">Thông tin Khách sạn</string>
+    <string name="title_activity_nguoidung">Thông tin Người dùng</string>
 
 </resources>

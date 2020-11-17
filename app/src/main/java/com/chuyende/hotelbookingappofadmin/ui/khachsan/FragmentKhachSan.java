@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,22 +16,33 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.chuyende.hotelbookingappofadmin.R;
 
 public class FragmentKhachSan extends Fragment {
 
+
     private KhachSanViewModel khachSanViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         khachSanViewModel =
                 new ViewModelProvider(this).get(KhachSanViewModel.class);
         View root = inflater.inflate(R.layout.fragment_khachsan, container, false);
-        final EditText edtSearchKS = root.findViewById(R.id.edtTimKiemKhachSan);
-        final ImageButton btnSearchKS = root.findViewById(R.id.btnTimKiemKhachSan);
-        final Button btnDangXuat = root.findViewById(R.id.btnDangXuat);
-        final Spinner spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
-        final ListView lvKhachSan = root.findViewById(R.id.lvKhachSan);
+        EditText edtSearchKS = root.findViewById(R.id.edtTimKiemKhachSan);
+        ImageButton btnSearchKS = root.findViewById(R.id.btnTimKiemKhachSan);
+        Button btnDangXuat = root.findViewById(R.id.btnDangXuat);
+        Spinner spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
+        ListView lvKhachSan = root.findViewById(R.id.lvKhachSan);
+
+        btnDangXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChiTietKhachSan.class);
+                startActivity(intent);
+            }
+        });
+
         return root;
     }
 }
