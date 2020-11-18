@@ -2,9 +2,11 @@ package com.chuyende.hotelbookingappofadmin.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.ui.khachsan.FragmentKhachSan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class Menu extends AppCompatActivity {
     ActionBar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

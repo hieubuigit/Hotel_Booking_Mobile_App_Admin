@@ -15,6 +15,7 @@ public class DangNhap extends AppCompatActivity {
     Button btnDangNhap;
     EditText edtTenDangNhap;
     EditText edtMatKhau;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +35,8 @@ public class DangNhap extends AppCompatActivity {
     }
 
     private void setControl() {
-         btnDangNhap = findViewById(R.id.btnDangNhap);
-         edtTenDangNhap = findViewById(R.id.edtTenDangNhap);
-         edtMatKhau = findViewById(R.id.edtMatKhau);
+        btnDangNhap = findViewById(R.id.btnDangNhap);
+        edtTenDangNhap = findViewById(R.id.edtTenDangNhap);
+        edtMatKhau = findViewById(R.id.edtMatKhau);
     }
 }

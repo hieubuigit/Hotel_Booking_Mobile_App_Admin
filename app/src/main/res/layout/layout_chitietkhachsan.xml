@@ -30,40 +30,40 @@
 
     <LinearLayout
         style="@style/linear_h"
-        android:gravity="center"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
 
         <TextView
+            style="@style/tv_model_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/tv_model_bold"
-            android:text="@string/luotdat"/>
+            android:text="@string/luotdat" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/swBieuDo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
+
         <TextView
+            style="@style/tv_model_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/tv_model_bold"
-            android:text="@string/doanhthu"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:text="@string/doanhthu" />
     </LinearLayout>
 
     <Spinner
         android:id="@+id/spLocThangKS"
-        android:layout_width="170dp"
+        android:layout_width="200dp"
         android:layout_height="30dp"
-        android:background="@drawable/edittext"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        />
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/edittext" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barchart_khachsan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp" />
 
 </LinearLayout>

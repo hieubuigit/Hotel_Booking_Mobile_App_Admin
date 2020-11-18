@@ -4,15 +4,12 @@
 
     <item
         android:id="@+id/lang_en"
-        android:title="@string/lang_en"
-        />
+        android:title="@string/lang_en" />
     <item
         android:id="@+id/lang_vi"
-        android:title="@string/lang_vi"
-        />
+        android:title="@string/lang_vi" />
     <item
         android:id="@+id/close"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
-        android:title="@string/dangxuat"
-        />
+        android:title="@string/dangxuat" />
 </menu>

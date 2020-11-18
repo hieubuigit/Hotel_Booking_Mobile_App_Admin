@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/template"
-    tools:context=".ui.khachsan.FragmentKhachSan" >
+    android:orientation="vertical"
+    tools:context=".ui.khachsan.FragmentKhachSan">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:layout_gravity="center">
+        android:orientation="horizontal">
+
         <EditText
             android:id="@+id/edtTimKiemKhachSan"
             android:layout_width="189dp"
             android:layout_height="50dp"
             android:background="@drawable/edittext_search"
-            android:hint="@string/hint_khachsan"
             android:gravity="center"
-            />
+            android:hint="@string/hint_khachsan" />
 
         <ImageButton
             android:id="@+id/btnTimKiemKhachSan"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/button_search"
-            android:src="@drawable/ic_baseline_search_24"/>
+            android:src="@drawable/ic_baseline_search_24" />
 
         <Button
             android:id="@+id/btnDangXuat"
@@ -45,9 +44,9 @@
         android:id="@+id/spLocTinhThanh"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/edittext"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"/>
+        android:background="@drawable/edittext" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +57,7 @@
             android:id="@+id/lvKhachSan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 
