@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/edittext" />
+            android:background="@drawable/edittext"
+            android:hint="@string/hint_username"/>
     </LinearLayout>
 
     <LinearLayout
@@ -55,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/edittext" />
+            android:background="@drawable/edittext"
+            android:hint="@string/hint_pass"/>
     </LinearLayout>
 
     <Button

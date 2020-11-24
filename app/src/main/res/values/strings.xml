@@ -28,5 +28,7 @@
     <string name="doanhthu">Doanh thu</string>
     <string name="title_activity_khachsan">Thông tin Khách sạn</string>
     <string name="title_activity_nguoidung">Thông tin Người dùng</string>
+    <string name="hint_username">Nhập username</string>
+    <string name="hint_pass">Nhập mật khẩu</string>
 
 </resources>

@@ -2,4 +2,6 @@
 <resources>
     <string name="title_hoten">Họ Tên</string>
     <string name="title_activity_khachsan">Thông tin Khách sạn</string>
+    <string name="hint_username">Tên đăng nhập</string>
+    <string name="hint_pass">Nhập mật khẩu</string>
 </resources>

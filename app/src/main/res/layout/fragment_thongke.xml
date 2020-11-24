@@ -27,14 +27,6 @@
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/edittext" />
-
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="45dp"-->
-        <!--            android:text="@string/tiente"-->
-        <!--            android:layout_marginLeft="10dp"-->
-        <!--            style="@style/textview"-->
-        <!--            />-->
     </LinearLayout>
 
 

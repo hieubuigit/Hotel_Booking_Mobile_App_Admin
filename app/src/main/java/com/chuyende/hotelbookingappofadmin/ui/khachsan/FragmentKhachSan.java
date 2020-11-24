@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,15 +14,19 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.chuyende.hotelbookingappofadmin.R;
+import com.chuyende.hotelbookingappofadmin.ui.DangNhap;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class FragmentKhachSan extends Fragment {
 
-
+    FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
     private KhachSanViewModel khachSanViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -38,8 +43,18 @@ public class FragmentKhachSan extends Fragment {
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChiTietKhachSan.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn có muốn thoát không ?");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intoDangNhap = new Intent(getActivity(), DangNhap.class);
+                        startActivity(intoDangNhap);
+                    }
+                });
+
             }
         });
 
