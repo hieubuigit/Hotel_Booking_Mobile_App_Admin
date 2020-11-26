@@ -43,20 +43,20 @@ public class FragmentKhachSan extends Fragment {
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Thông báo");
-                builder.setMessage("Bạn có muốn thoát không ?");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                builder.setTitle("Thông báo");
+//                builder.setMessage("Bạn có muốn thoát không ?");
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth.getInstance().signOut();
                         Intent intoDangNhap = new Intent(getActivity(), DangNhap.class);
                         startActivity(intoDangNhap);
                     }
                 });
 
-            }
-        });
+//            }
+//        });
 
         return root;
     }
