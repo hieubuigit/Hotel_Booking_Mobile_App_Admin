@@ -14,8 +14,8 @@
     </style>
 
     <style name="button">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">100dp</item>
     </style>
 
     <style name="button_logout">
@@ -31,7 +31,10 @@
 
     <style name="edit_text">
         <item name="android:fontFamily">@font/open_sans_regular</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
     </style>
 
     <style name="img_model">

@@ -27,7 +27,7 @@
                     android:text="@string/hoten" />
 
                 <TextView
-                    android:id="@+id/tvMaNV"
+                    android:id="@+id/tvTenNguoiDung"
                     style="@style/tv_model_regular" />
             </LinearLayout>
 
@@ -41,7 +41,7 @@
                     android:text="@string/ngaysinh" />
 
                 <TextView
-                    android:id="@+id/tvTenNV"
+                    android:id="@+id/tvNgaySinh"
                     style="@style/tv_model_regular" />
             </LinearLayout>
 
@@ -55,7 +55,7 @@
                     android:text="@string/gioitinh" />
 
                 <TextView
-                    android:id="@+id/tvNgaySinh"
+                    android:id="@+id/tvGioiTinh"
                     style="@style/tv_model_regular" />
             </LinearLayout>
 
@@ -69,7 +69,7 @@
                     android:text="@string/quoctich" />
 
                 <TextView
-                    android:id="@+id/tvGioiTinh"
+                    android:id="@+id/tvQuocTich"
                     style="@style/tv_model_regular" />
             </LinearLayout>
         </LinearLayout>

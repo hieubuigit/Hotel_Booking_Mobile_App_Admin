@@ -29,12 +29,12 @@ public class DangNhap extends AppCompatActivity {
     EditText edtMatKhau;
     FirebaseFirestore firestore;
     DocumentReference documentReference;
-    private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
         setControl();
         setEvent();
         firestore = FirebaseFirestore.getInstance();
@@ -89,4 +89,6 @@ public class DangNhap extends AppCompatActivity {
         edtTenDangNhap = findViewById(R.id.edtTenDangNhap);
         edtMatKhau = findViewById(R.id.edtMatKhau);
     }
+
+
 }
