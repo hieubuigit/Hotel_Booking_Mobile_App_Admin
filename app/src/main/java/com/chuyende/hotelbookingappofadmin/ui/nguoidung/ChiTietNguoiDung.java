@@ -17,6 +17,7 @@ public class ChiTietNguoiDung extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.layout_chitietnguoidung);
+        
     }
 
     @Override

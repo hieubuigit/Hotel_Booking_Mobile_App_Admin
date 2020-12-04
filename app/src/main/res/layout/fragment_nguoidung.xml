@@ -20,8 +20,8 @@
             android:layout_width="189dp"
             android:layout_height="50dp"
             android:background="@drawable/edittext_search"
-            android:gravity="center"
-            android:hint="@string/hint_khachsan" />
+            android:hint="@string/hint_khachsan"
+            android:paddingLeft="10dp" />
 
         <ImageButton
             android:id="@+id/btnTimKiemNguoiDung"

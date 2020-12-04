@@ -1,7 +1,7 @@
 package com.chuyende.hotelbookingappofadmin.data_model;
 
 public class NguoiDung {
-    String maNguoiDung, tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDT, urlAnhDaiDien, cmnd;
+    String maNguoiDung, tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDienThoai, anhDaiDien, cmnd;
 
     public String getMaNguoiDung() {
         return maNguoiDung;
@@ -60,19 +60,19 @@ public class NguoiDung {
     }
 
     public String getSoDT() {
-        return soDT;
+        return soDienThoai;
     }
 
     public void setSoDT(String soDT) {
-        this.soDT = soDT;
+        this.soDienThoai = soDT;
     }
 
     public String getUrlAnhDaiDien() {
-        return urlAnhDaiDien;
+        return anhDaiDien;
     }
 
     public void setUrlAnhDaiDien(String urlAnhDaiDien) {
-        this.urlAnhDaiDien = urlAnhDaiDien;
+        this.anhDaiDien = urlAnhDaiDien;
     }
 
     public String getCmnd() {
@@ -93,8 +93,8 @@ public class NguoiDung {
                 ", quocTich='" + quocTich + '\'' +
                 ", diaChi='" + diaChi + '\'' +
                 ", email='" + email + '\'' +
-                ", soDT='" + soDT + '\'' +
-                ", urlAnhDaiDien='" + urlAnhDaiDien + '\'' +
+                ", soDT='" + soDienThoai + '\'' +
+                ", urlAnhDaiDien='" + anhDaiDien + '\'' +
                 ", cmnd='" + cmnd + '\'' +
                 '}';
     }

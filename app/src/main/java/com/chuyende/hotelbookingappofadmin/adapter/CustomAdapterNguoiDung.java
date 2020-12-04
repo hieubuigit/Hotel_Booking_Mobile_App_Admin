@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
+import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
 
 import java.util.ArrayList;
 
@@ -17,8 +18,9 @@ public class CustomAdapterNguoiDung extends ArrayAdapter {
     Context context;
     int resource;
     ArrayList<NguoiDung> data;
+
     public CustomAdapterNguoiDung(Context context, int resource, ArrayList<NguoiDung> data) {
-        super(context, resource, data);
+        super(context, resource);
         this.context = context;
         this.resource = resource;
         this.data = data;
@@ -38,7 +40,7 @@ public class CustomAdapterNguoiDung extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         Holder holder = null;
-        if(view == null) {
+        if (view == null) {
             holder = new Holder();
             view = LayoutInflater.from(context).inflate(resource, null);
             holder.tvTenNguoiDung = view.findViewById(R.id.tvTenNguoiDung);
@@ -47,23 +49,16 @@ public class CustomAdapterNguoiDung extends ArrayAdapter {
             holder.tvQuocTich = view.findViewById(R.id.tvQuocTich);
             holder.imgAnhDaiDien = view.findViewById(R.id.imgHinhDaiDien);
             view.setTag(holder);
-        }
-        else
-            holder=(Holder)view.getTag();
+        } else
+            holder = (Holder) view.getTag();
 
         final NguoiDung nguoiDung = data.get(position);
 
         holder.tvTenNguoiDung.setText(nguoiDung.getTenNguoiDung());
         holder.tvNgaySinh.setText(nguoiDung.getNgaySinh());
-        if (nguoiDung.getGioiTinh().equals("Nam")) {
-            holder.tvGioiTinh.setText(nguoiDung.getGioiTinh());
-
-        }
-        if (nguoiDung.getGioiTinh().equals("Nữ")) {
-            holder.tvGioiTinh.setText(nguoiDung.getGioiTinh());
-        }
+        holder.tvGioiTinh.setText(nguoiDung.getGioiTinh());
         holder.tvQuocTich.setText(nguoiDung.getQuocTich());
-        if(nguoiDung.getUrlAnhDaiDien() == null){
+        if (nguoiDung.getUrlAnhDaiDien() == null) {
             holder.imgAnhDaiDien.setImageResource(R.drawable.men);
         }
 //        else {

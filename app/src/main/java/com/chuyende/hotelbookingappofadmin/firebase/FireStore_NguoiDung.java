@@ -1,6 +1,9 @@
 package com.chuyende.hotelbookingappofadmin.firebase;
 
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,14 +16,16 @@ import java.util.ArrayList;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-public class FireStore_NguoiDung{
-    FirebaseFirestore firestore;
+public class FireStore_NguoiDung {
+    FirebaseFirestore db;
+    private final String COLLECTION_KEY = "NguoiDung";
 
     public ArrayList<NguoiDung> getListAllNguoiDung() {
+        db = FirebaseFirestore.getInstance();
         ArrayList<NguoiDung> data = new ArrayList<>();
-        firestore.collection("NguoiDung").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (DocumentSnapshot documentSnapshot : querySnapshot) {
@@ -34,12 +39,12 @@ public class FireStore_NguoiDung{
                         nguoiDung.setDiaChi(documentSnapshot.getString("diaChi"));
                         nguoiDung.setEmail(documentSnapshot.getString("email"));
                         nguoiDung.setSoDT(documentSnapshot.getString("soDienThoai"));
+                        nguoiDung.setUrlAnhDaiDien(documentSnapshot.getString("anhDaiDien"));
                         data.add(nguoiDung);
                     }
                     Log.d(TAG, "Lấy dữ liệu thành công");
-                }
-                else {
-                    Log.d(TAG, "Có lỗi", task.getException());
+                } else {
+                    Log.d(TAG, "Có lỗi");
                 }
             }
         });
@@ -47,8 +52,9 @@ public class FireStore_NguoiDung{
     }
 
     public ArrayList<NguoiDung> getNguoiDung(String maNguoiDung) {
+        db = FirebaseFirestore.getInstance();
         ArrayList<NguoiDung> data = new ArrayList<>();
-        firestore.collection("nguoiDung").document(maNguoiDung).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(COLLECTION_KEY).document(maNguoiDung).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -69,8 +75,7 @@ public class FireStore_NguoiDung{
                     } else {
                         Log.d(TAG, "Không tìm thấy document");
                     }
-                }
-                else {
+                } else {
                     Log.d(TAG, "Có lỗi", task.getException());
                 }
             }

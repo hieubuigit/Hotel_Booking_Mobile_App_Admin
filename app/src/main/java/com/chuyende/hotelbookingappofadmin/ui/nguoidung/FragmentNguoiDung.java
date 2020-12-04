@@ -2,9 +2,11 @@ package com.chuyende.hotelbookingappofadmin.ui.nguoidung;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,20 +21,27 @@ import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.adapter.CustomAdapterNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
 import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
 public class FragmentNguoiDung extends Fragment {
+    private final String COLLECTION_KEY = "NguoiDung";
     EditText edtSearchND;
     ImageButton btnSearchND;
     Button btnDangXuat;
     ListView lvNguoiDung;
-    FireStore_NguoiDung fbNguoiDung;
+    FireStore_NguoiDung fbNguoiDung = new FireStore_NguoiDung();
     CustomAdapterNguoiDung adapterNguoiDung;
-    ArrayList<NguoiDung> dataNguoiDung = new ArrayList<>();
     FirebaseFirestore db;
-
+    NguoiDung nguoiDung;
     private NguoiDungViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,17 +54,26 @@ public class FragmentNguoiDung extends Fragment {
         btnSearchND = root.findViewById(R.id.btnTimKiemNguoiDung);
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         lvNguoiDung = root.findViewById(R.id.lvNguoiDung);
-        return root;
-    }
+        db = FirebaseFirestore.getInstance();
+        db.collection(COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<NguoiDung> dataNguoiDung = new ArrayList<>();
+                    QuerySnapshot querySnapshot = task.getResult();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                        nguoiDung = documentSnapshot.toObject(NguoiDung.class);
+                        dataNguoiDung.add(nguoiDung);
+                    }
+                    adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
+                    lvNguoiDung.setAdapter(adapterNguoiDung);
+                    Log.d(TAG, "Lấy dữ liệu thành công");
+                } else {
+                    Log.d(TAG, "Có lỗi");
+                }
+            }
+        });
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        fbNguoiDung = new FireStore_NguoiDung();
-        dataNguoiDung = fbNguoiDung.getListAllNguoiDung();
-        adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
-        adapterNguoiDung.notifyDataSetChanged();
-        lvNguoiDung.setAdapter(adapterNguoiDung);
 
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,5 +83,17 @@ public class FragmentNguoiDung extends Fragment {
             }
         });
 
+        lvNguoiDung.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mand",nguoiDung.getMaNguoiDung());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        return root;
     }
+
 }
