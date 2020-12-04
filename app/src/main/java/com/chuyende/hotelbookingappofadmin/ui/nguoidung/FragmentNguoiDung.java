@@ -3,7 +3,10 @@ package com.chuyende.hotelbookingappofadmin.ui.nguoidung;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +47,29 @@ public class FragmentNguoiDung extends Fragment {
     NguoiDung nguoiDung;
     private NguoiDungViewModel dashboardViewModel;
 
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.delete_user:
+
+                return true;
+            case R.id.lock_user:
+
+                return true;
+            case R.id.unlock_user:
+
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -55,6 +81,7 @@ public class FragmentNguoiDung extends Fragment {
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         lvNguoiDung = root.findViewById(R.id.lvNguoiDung);
         db = FirebaseFirestore.getInstance();
+        registerForContextMenu(lvNguoiDung);
         db.collection(COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -75,6 +102,7 @@ public class FragmentNguoiDung extends Fragment {
         });
 
 
+
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +116,13 @@ public class FragmentNguoiDung extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("mand",nguoiDung.getMaNguoiDung());
+                bundle.putString("mand", nguoiDung.getMaNguoiDung());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
+
+
         return root;
     }
 
