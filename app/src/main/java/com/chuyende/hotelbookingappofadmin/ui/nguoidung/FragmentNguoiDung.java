@@ -126,4 +126,6 @@ public class FragmentNguoiDung extends Fragment {
         return root;
     }
 
+    public boolean checkTrangThaiNguoiDung(String )
+
 }
