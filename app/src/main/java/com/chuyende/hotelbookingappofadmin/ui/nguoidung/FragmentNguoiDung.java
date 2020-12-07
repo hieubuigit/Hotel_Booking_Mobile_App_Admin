@@ -25,18 +25,25 @@ import com.chuyende.hotelbookingappofadmin.adapter.CustomAdapterNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
 import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class FragmentNguoiDung extends Fragment {
-    private final String COLLECTION_KEY = "NguoiDung";
+    private final String COLLECTION_KEY_1 = "NguoiDung";
+    private final String COLLECTION_KEY_2 = "TaiKhoanNguoiDung";
     EditText edtSearchND;
     ImageButton btnSearchND;
     Button btnDangXuat;
@@ -53,18 +60,44 @@ public class FragmentNguoiDung extends Fragment {
         getActivity().getMenuInflater().inflate(R.menu.context_menu, menu);
     }
 
+
+
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        DocumentReference docRef = db.collection(COLLECTION_KEY_2).document("TKND01");
+        Map<String, Object> map = new HashMap<>();
         switch (item.getItemId()) {
             case R.id.delete_user:
 
                 return true;
             case R.id.lock_user:
-
+                map.put("trangThaiTaiKHoan", false);
+                docRef.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Yay, updated the document");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure", e);
+                    }
+                });
                 return true;
             case R.id.unlock_user:
-
+                map.put("trangThaiTaiKHoan", true);
+                docRef.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Yay, updated the document");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure", e);
+                    }
+                });
                 return true;
         }
         return super.onContextItemSelected(item);
@@ -82,7 +115,7 @@ public class FragmentNguoiDung extends Fragment {
         lvNguoiDung = root.findViewById(R.id.lvNguoiDung);
         db = FirebaseFirestore.getInstance();
         registerForContextMenu(lvNguoiDung);
-        db.collection(COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("TaiKhoanNguoiDung").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -102,7 +135,6 @@ public class FragmentNguoiDung extends Fragment {
         });
 
 
-
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +148,7 @@ public class FragmentNguoiDung extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("mand", nguoiDung.getMaNguoiDung());
+                bundle.putString("mand", nguoiDung.getID());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -125,7 +157,5 @@ public class FragmentNguoiDung extends Fragment {
 
         return root;
     }
-
-    public boolean checkTrangThaiNguoiDung(String )
 
 }

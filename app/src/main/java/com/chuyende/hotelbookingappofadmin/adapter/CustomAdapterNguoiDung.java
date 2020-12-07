@@ -8,8 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
+import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanNguoiDung;
 import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
 
 import java.util.ArrayList;
@@ -17,9 +20,9 @@ import java.util.ArrayList;
 public class CustomAdapterNguoiDung extends ArrayAdapter {
     Context context;
     int resource;
-    ArrayList<NguoiDung> data;
+    ArrayList<TaiKhoanNguoiDung> data;
 
-    public CustomAdapterNguoiDung(Context context, int resource, ArrayList<NguoiDung> data) {
+    public CustomAdapterNguoiDung(Context context, int resource, ArrayList<TaiKhoanNguoiDung> data) {
         super(context, resource);
         this.context = context;
         this.resource = resource;
@@ -30,6 +33,7 @@ public class CustomAdapterNguoiDung extends ArrayAdapter {
     public int getCount() {
         return data.size();
     }
+
 
     private static class Holder {
         TextView tvTenNguoiDung, tvNgaySinh, tvGioiTinh, tvQuocTich;
@@ -58,8 +62,10 @@ public class CustomAdapterNguoiDung extends ArrayAdapter {
         holder.tvNgaySinh.setText(nguoiDung.getNgaySinh());
         holder.tvGioiTinh.setText(nguoiDung.getGioiTinh());
         holder.tvQuocTich.setText(nguoiDung.getQuocTich());
-        if (nguoiDung.getUrlAnhDaiDien() == null) {
+        if (nguoiDung.getGioiTinh() == "Nam") {
             holder.imgAnhDaiDien.setImageResource(R.drawable.men);
+        } else {
+            holder.imgAnhDaiDien.setImageResource(R.drawable.woman);
         }
 //        else {
 //            Bitmap bmHinhDaiDien = BitmapFactory.decodeByteArray(nhanVien.getImage(), 0, nhanVien.getImage().length);

@@ -1,14 +1,17 @@
 package com.chuyende.hotelbookingappofadmin.data_model;
 
-public class NguoiDung {
-    String maNguoiDung, tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDienThoai, anhDaiDien, cmnd;
+import com.google.firebase.firestore.Exclude;
 
-    public String getMaNguoiDung() {
-        return maNguoiDung;
+public class NguoiDung {
+    @Exclude String id;
+    String tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDienThoai, anhDaiDien, cmnd;
+
+    public String getID() {
+        return id;
     }
 
-    public void setMaNguoiDung(String maNguoiDung) {
-        this.maNguoiDung = maNguoiDung;
+    public void setID(String id) {
+        this.id = id;
     }
 
     public String getTenNguoiDung() {
@@ -86,7 +89,7 @@ public class NguoiDung {
     @Override
     public String toString() {
         return "NguoiDung{" +
-                "maNguoiDung='" + maNguoiDung + '\'' +
+                "id='" + id + '\'' +
                 ", tenNguoiDung='" + tenNguoiDung + '\'' +
                 ", gioiTinh='" + gioiTinh + '\'' +
                 ", ngaySinh='" + ngaySinh + '\'' +

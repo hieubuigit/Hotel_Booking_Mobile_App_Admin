@@ -3,7 +3,6 @@
     package="com.chuyende.hotelbookingappofadmin">
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -12,11 +11,11 @@
 
         <activity
             android:name=".ui.nguoidung.ChiTietNguoiDung"
-            android:label="@string/title_activity_nguoidung"></activity>
+            android:label="@string/title_activity_nguoidung" />
         <activity
             android:name=".ui.khachsan.ChiTietKhachSan"
-            android:label="@string/title_activity_khachsan"></activity>
-        <activity android:name=".ui.Menu"></activity>
+            android:label="@string/title_activity_khachsan" />
+        <activity android:name=".ui.Menu" />
         <activity android:name=".ui.DangNhap">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
