@@ -20,9 +20,9 @@ import java.util.ArrayList;
 public class CustomAdapterNguoiDung extends ArrayAdapter {
     Context context;
     int resource;
-    ArrayList<TaiKhoanNguoiDung> data;
+    ArrayList<NguoiDung> data;
 
-    public CustomAdapterNguoiDung(Context context, int resource, ArrayList<TaiKhoanNguoiDung> data) {
+    public CustomAdapterNguoiDung(Context context, int resource, ArrayList<NguoiDung> data) {
         super(context, resource);
         this.context = context;
         this.resource = resource;
@@ -64,7 +64,8 @@ public class CustomAdapterNguoiDung extends ArrayAdapter {
         holder.tvQuocTich.setText(nguoiDung.getQuocTich());
         if (nguoiDung.getGioiTinh() == "Nam") {
             holder.imgAnhDaiDien.setImageResource(R.drawable.men);
-        } else {
+        }
+        if (nguoiDung.getGioiTinh() == "Nữ") {
             holder.imgAnhDaiDien.setImageResource(R.drawable.woman);
         }
 //        else {

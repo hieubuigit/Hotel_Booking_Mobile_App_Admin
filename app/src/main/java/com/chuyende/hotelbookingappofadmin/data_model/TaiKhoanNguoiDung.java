@@ -1,26 +1,15 @@
 package com.chuyende.hotelbookingappofadmin.data_model;
 
-import com.google.firebase.firestore.Exclude;
-
 public class TaiKhoanNguoiDung {
-    @Exclude String id;
+    String idTKNguoiDung;
     String tenTaiKhoan, matKhau, email, soDienThoai, trangThaiTaiKhoan;
 
-    public TaiKhoanNguoiDung(String id, String tenTaiKhoan, String matKhau, String email, String soDienThoai, String trangThaiTaiKhoan) {
-        this.id = id;
-        this.tenTaiKhoan = tenTaiKhoan;
-        this.matKhau = matKhau;
-        this.email = email;
-        this.soDienThoai = soDienThoai;
-        this.trangThaiTaiKhoan = trangThaiTaiKhoan;
+    public String getIdTKNguoiDung() {
+        return idTKNguoiDung;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setIdTKNguoiDung(String idTKNguoiDung) {
+        this.idTKNguoiDung = idTKNguoiDung;
     }
 
     public String getTenTaiKhoan() {
@@ -63,15 +52,4 @@ public class TaiKhoanNguoiDung {
         this.trangThaiTaiKhoan = trangThaiTaiKhoan;
     }
 
-    @Override
-    public String toString() {
-        return "TaiKhoanNguoiDung{" +
-                "id='" + id + '\'' +
-                ", tenTaiKhoan='" + tenTaiKhoan + '\'' +
-                ", matKhau='" + matKhau + '\'' +
-                ", email='" + email + '\'' +
-                ", soDienThoai='" + soDienThoai + '\'' +
-                ", trangThaiTaiKhoan='" + trangThaiTaiKhoan + '\'' +
-                '}';
-    }
 }

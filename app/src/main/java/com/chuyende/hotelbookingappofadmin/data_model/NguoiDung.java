@@ -1,17 +1,24 @@
 package com.chuyende.hotelbookingappofadmin.data_model;
 
-import com.google.firebase.firestore.Exclude;
-
 public class NguoiDung {
-    @Exclude String id;
-    String tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDienThoai, anhDaiDien, cmnd;
+    String idNguoiDung;
 
-    public String getID() {
-        return id;
+    String maNguoiDung, tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDienThoai, anhDaiDien, cmnd, tenTaiKhoan;
+
+    public String getIdNguoiDung() {
+        return idNguoiDung;
     }
 
-    public void setID(String id) {
-        this.id = id;
+    public void setIdNguoiDung(String idNguoiDung) {
+        this.idNguoiDung = idNguoiDung;
+    }
+
+    public String getMaNguoiDung() {
+        return maNguoiDung;
+    }
+
+    public void setMaNguoiDung(String maNguoiDung) {
+        this.maNguoiDung = maNguoiDung;
     }
 
     public String getTenNguoiDung() {
@@ -62,20 +69,20 @@ public class NguoiDung {
         this.email = email;
     }
 
-    public String getSoDT() {
+    public String getSoDienThoai() {
         return soDienThoai;
     }
 
-    public void setSoDT(String soDT) {
-        this.soDienThoai = soDT;
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
     }
 
-    public String getUrlAnhDaiDien() {
+    public String getAnhDaiDien() {
         return anhDaiDien;
     }
 
-    public void setUrlAnhDaiDien(String urlAnhDaiDien) {
-        this.anhDaiDien = urlAnhDaiDien;
+    public void setAnhDaiDien(String anhDaiDien) {
+        this.anhDaiDien = anhDaiDien;
     }
 
     public String getCmnd() {
@@ -86,19 +93,11 @@ public class NguoiDung {
         this.cmnd = cmnd;
     }
 
-    @Override
-    public String toString() {
-        return "NguoiDung{" +
-                "id='" + id + '\'' +
-                ", tenNguoiDung='" + tenNguoiDung + '\'' +
-                ", gioiTinh='" + gioiTinh + '\'' +
-                ", ngaySinh='" + ngaySinh + '\'' +
-                ", quocTich='" + quocTich + '\'' +
-                ", diaChi='" + diaChi + '\'' +
-                ", email='" + email + '\'' +
-                ", soDT='" + soDienThoai + '\'' +
-                ", urlAnhDaiDien='" + anhDaiDien + '\'' +
-                ", cmnd='" + cmnd + '\'' +
-                '}';
+    public String getTenTaiKhoan() {
+        return tenTaiKhoan;
+    }
+
+    public void setTenTaiKhoan(String tenTaiKhoan) {
+        this.tenTaiKhoan = tenTaiKhoan;
     }
 }
