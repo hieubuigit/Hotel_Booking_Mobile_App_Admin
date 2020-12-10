@@ -15,7 +15,10 @@
         <activity
             android:name=".ui.khachsan.ChiTietKhachSan"
             android:label="@string/title_activity_khachsan" />
-        <activity android:name=".ui.Menu" />
+        <activity
+            android:name=".ui.Menu"
+            android:windowSoftInputMode="adjustNothing"
+            />
         <activity android:name=".ui.DangNhap">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

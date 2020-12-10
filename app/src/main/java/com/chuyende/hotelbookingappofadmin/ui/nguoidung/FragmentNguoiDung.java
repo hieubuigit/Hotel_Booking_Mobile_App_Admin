@@ -2,6 +2,8 @@ package com.chuyende.hotelbookingappofadmin.ui.nguoidung;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -32,7 +34,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -57,7 +61,7 @@ public class FragmentNguoiDung extends Fragment {
     TaiKhoanNguoiDung taiKhoanNguoiDung;
     ArrayList<NguoiDung> dataNguoiDung;
     ArrayList<TaiKhoanNguoiDung> dataTKNguoiDung;
-    ArrayList<NguoiDung> listNguoiDung = new ArrayList<>();
+    Query tenNguoiDung;
     private NguoiDungViewModel dashboardViewModel;
 
     @Override
@@ -73,9 +77,6 @@ public class FragmentNguoiDung extends Fragment {
         DocumentReference docRef = db.collection(COLLECTION_KEY_2).document("TKND01");
         Map<String, Object> map = new HashMap<>();
         switch (item.getItemId()) {
-            case R.id.delete_user:
-
-                return true;
             case R.id.lock_user:
                 db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -85,7 +86,7 @@ public class FragmentNguoiDung extends Fragment {
                             QuerySnapshot querySnapshot = task.getResult();
                             for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                 taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                                if(taiKhoanNguoiDung != null) {
+                                if (taiKhoanNguoiDung != null) {
                                     taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
                                 }
                                 dataTKNguoiDung.add(taiKhoanNguoiDung);
@@ -99,13 +100,13 @@ public class FragmentNguoiDung extends Fragment {
                                         QuerySnapshot querySnapshot = task.getResult();
                                         for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                             nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                                            if(nguoiDung != null) {
+                                            if (nguoiDung != null) {
                                                 nguoiDung.setIdNguoiDung(documentSnapshot.getId());
                                             }
                                             dataNguoiDung.add(nguoiDung);
                                         }
                                         Log.d(TAG, "Lấy dữ liệu thành công");
-                                        for(NguoiDung nd : dataNguoiDung) {
+                                        for (NguoiDung nd : dataNguoiDung) {
                                             for (TaiKhoanNguoiDung tknd : dataTKNguoiDung) {
                                                 if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
                                                     if (tknd.getTrangThaiTaiKhoan().equals("true")) {
@@ -124,8 +125,7 @@ public class FragmentNguoiDung extends Fragment {
                                                         });
                                                         Toast.makeText(getActivity(), "Okie, Tài khoản đã được khóa", Toast.LENGTH_SHORT).show();
                                                         break;
-                                                    }
-                                                    else if (tknd.getTrangThaiTaiKhoan().equals("false")) {
+                                                    } else if (tknd.getTrangThaiTaiKhoan().equals("false")) {
                                                         Toast.makeText(getActivity(), "Tài khoản đã được khóa trước đây", Toast.LENGTH_SHORT).show();
                                                         break;
                                                     }
@@ -153,7 +153,7 @@ public class FragmentNguoiDung extends Fragment {
                             QuerySnapshot querySnapshot = task.getResult();
                             for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                 taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                                if(taiKhoanNguoiDung != null) {
+                                if (taiKhoanNguoiDung != null) {
                                     taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
                                 }
                                 dataTKNguoiDung.add(taiKhoanNguoiDung);
@@ -167,13 +167,13 @@ public class FragmentNguoiDung extends Fragment {
                                         QuerySnapshot querySnapshot = task.getResult();
                                         for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                             nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                                            if(nguoiDung != null) {
+                                            if (nguoiDung != null) {
                                                 nguoiDung.setIdNguoiDung(documentSnapshot.getId());
                                             }
                                             dataNguoiDung.add(nguoiDung);
                                         }
                                         Log.d(TAG, "Lấy dữ liệu thành công");
-                                        for(NguoiDung nd : dataNguoiDung) {
+                                        for (NguoiDung nd : dataNguoiDung) {
                                             for (TaiKhoanNguoiDung tknd : dataTKNguoiDung) {
                                                 if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
                                                     if (tknd.getTrangThaiTaiKhoan().equals("false")) {
@@ -192,8 +192,7 @@ public class FragmentNguoiDung extends Fragment {
                                                         });
                                                         Toast.makeText(getActivity(), "Okie, Tài khoản đã được mở khóa", Toast.LENGTH_SHORT).show();
                                                         break;
-                                                    }
-                                                    else if (tknd.getTrangThaiTaiKhoan().equals("true")) {
+                                                    } else if (tknd.getTrangThaiTaiKhoan().equals("true")) {
                                                         Toast.makeText(getActivity(), "Tài khoản đã được mở khóa trước đây", Toast.LENGTH_SHORT).show();
                                                         break;
                                                     }
@@ -236,7 +235,7 @@ public class FragmentNguoiDung extends Fragment {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (DocumentSnapshot documentSnapshot : querySnapshot) {
                         nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                        if(nguoiDung != null) {
+                        if (nguoiDung != null) {
                             nguoiDung.setIdNguoiDung(documentSnapshot.getId());
                         }
                         dataNguoiDung.add(nguoiDung);
@@ -250,7 +249,22 @@ public class FragmentNguoiDung extends Fragment {
             }
         });
 
+        edtSearchND.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,4 +330,14 @@ public class FragmentNguoiDung extends Fragment {
         return dataTKNguoiDung;
     }
 
+    public void search(String str) {
+        ArrayList<NguoiDung> listNguoiDung = new ArrayList<>();
+        for (NguoiDung nguoiDung : dataNguoiDung) {
+            if (nguoiDung.getTenNguoiDung().toLowerCase().contains(str.toLowerCase())) {
+                listNguoiDung.add(nguoiDung);
+            }
+        }
+        adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
+        lvNguoiDung.setAdapter(adapterNguoiDung);
+    }
 }
