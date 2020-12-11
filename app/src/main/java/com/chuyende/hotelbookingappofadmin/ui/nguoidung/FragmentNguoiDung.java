@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,8 +51,7 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 public class FragmentNguoiDung extends Fragment {
     private final String COLLECTION_KEY_1 = "NguoiDung";
     private final String COLLECTION_KEY_2 = "TaiKhoanNguoiDung";
-    EditText edtSearchND;
-    ImageButton btnSearchND;
+    SearchView svNguoiDung;
     Button btnDangXuat;
     ListView lvNguoiDung;
     FireStore_NguoiDung fbNguoiDung = new FireStore_NguoiDung();
@@ -60,6 +60,7 @@ public class FragmentNguoiDung extends Fragment {
     NguoiDung nguoiDung;
     TaiKhoanNguoiDung taiKhoanNguoiDung;
     ArrayList<NguoiDung> dataNguoiDung;
+    ArrayList<NguoiDung> listNguoiDung = new ArrayList<>();
     ArrayList<TaiKhoanNguoiDung> dataTKNguoiDung;
     Query tenNguoiDung;
     private NguoiDungViewModel dashboardViewModel;
@@ -69,7 +70,6 @@ public class FragmentNguoiDung extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
         getActivity().getMenuInflater().inflate(R.menu.context_menu, menu);
     }
-
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -111,18 +111,7 @@ public class FragmentNguoiDung extends Fragment {
                                                 if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
                                                     if (tknd.getTrangThaiTaiKhoan().equals("true")) {
                                                         tknd.setTrangThaiTaiKhoan("false");
-                                                        Map<String, String> map = new HashMap<>();
-                                                        map.put("trangThaiTaiKhoan", tknd.getTrangThaiTaiKhoan());
-                                                        map.put("tenTaiKhoan", tknd.getTenTaiKhoan());
-                                                        map.put("email", tknd.getEmail());
-                                                        map.put("matKhau", tknd.getMatKhau());
-                                                        map.put("soDienThoai", tknd.getSoDienThoai());
-                                                        db.collection(COLLECTION_KEY_2).document(tknd.getIdTKNguoiDung()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.d(TAG, "trạng thái được update");
-                                                            }
-                                                        });
+                                                        UpdateTKNguoiDung(tknd);
                                                         Toast.makeText(getActivity(), "Okie, Tài khoản đã được khóa", Toast.LENGTH_SHORT).show();
                                                         break;
                                                     } else if (tknd.getTrangThaiTaiKhoan().equals("false")) {
@@ -178,18 +167,7 @@ public class FragmentNguoiDung extends Fragment {
                                                 if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
                                                     if (tknd.getTrangThaiTaiKhoan().equals("false")) {
                                                         tknd.setTrangThaiTaiKhoan("true");
-                                                        Map<String, String> map = new HashMap<>();
-                                                        map.put("trangThaiTaiKhoan", tknd.getTrangThaiTaiKhoan());
-                                                        map.put("tenTaiKhoan", tknd.getTenTaiKhoan());
-                                                        map.put("email", tknd.getEmail());
-                                                        map.put("matKhau", tknd.getMatKhau());
-                                                        map.put("soDienThoai", tknd.getSoDienThoai());
-                                                        db.collection(COLLECTION_KEY_2).document(tknd.getIdTKNguoiDung()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.d(TAG, "trạng thái được update");
-                                                            }
-                                                        });
+                                                        UpdateTKNguoiDung(tknd);
                                                         Toast.makeText(getActivity(), "Okie, Tài khoản đã được mở khóa", Toast.LENGTH_SHORT).show();
                                                         break;
                                                     } else if (tknd.getTrangThaiTaiKhoan().equals("true")) {
@@ -221,50 +199,25 @@ public class FragmentNguoiDung extends Fragment {
                 new ViewModelProvider(this).get(NguoiDungViewModel.class);
         View root = inflater.inflate(R.layout.fragment_nguoidung, container, false);
 
-        edtSearchND = root.findViewById(R.id.edtTimKiemNguoiDung);
-        btnSearchND = root.findViewById(R.id.btnTimKiemNguoiDung);
+        svNguoiDung = root.findViewById(R.id.svNguoiDung);
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         lvNguoiDung = root.findViewById(R.id.lvNguoiDung);
         db = FirebaseFirestore.getInstance();
         registerForContextMenu(lvNguoiDung);
-        db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        svNguoiDung.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    dataNguoiDung = new ArrayList<>();
-                    QuerySnapshot querySnapshot = task.getResult();
-                    for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                        nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                        if (nguoiDung != null) {
-                            nguoiDung.setIdNguoiDung(documentSnapshot.getId());
-                        }
-                        dataNguoiDung.add(nguoiDung);
-                    }
-                    adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
-                    lvNguoiDung.setAdapter(adapterNguoiDung);
-                    Log.d(TAG, "Lấy dữ liệu thành công");
-                } else {
-                    Log.d(TAG, "Có lỗi");
-                }
+            public boolean onQueryTextSubmit(String query) {
+                searchData(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
 
-        edtSearchND.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        GetDataNguoiDung();
 
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,7 +242,30 @@ public class FragmentNguoiDung extends Fragment {
         return root;
     }
 
-    public ArrayList<NguoiDung> LayDSNguoiDung() {
+    private void searchData(String query) {
+        db.collection(COLLECTION_KEY_1).whereEqualTo("tenNguoiDung", query).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                listNguoiDung.clear();
+                QuerySnapshot querySnapshot = task.getResult();
+                for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                    nguoiDung = documentSnapshot.toObject(NguoiDung.class);
+                    if (nguoiDung != null) {
+                        nguoiDung.setIdNguoiDung(documentSnapshot.getId());
+                    }
+                    listNguoiDung.add(nguoiDung);
+                }
+                adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, listNguoiDung);
+                lvNguoiDung.setAdapter(adapterNguoiDung);
+                Log.d(TAG, "Lấy dữ liệu thành công");
+            }
+        });
+    }
+
+
+
+    // get data from firestore, load into listview
+    public void GetDataNguoiDung() {
         db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -298,19 +274,22 @@ public class FragmentNguoiDung extends Fragment {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (DocumentSnapshot documentSnapshot : querySnapshot) {
                         nguoiDung = documentSnapshot.toObject(NguoiDung.class);
+                        if (nguoiDung != null) {
+                            nguoiDung.setIdNguoiDung(documentSnapshot.getId());
+                        }
                         dataNguoiDung.add(nguoiDung);
                     }
-
+                    adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
+                    lvNguoiDung.setAdapter(adapterNguoiDung);
                     Log.d(TAG, "Lấy dữ liệu thành công");
                 } else {
                     Log.d(TAG, "Có lỗi");
                 }
             }
         });
-        return dataNguoiDung;
     }
 
-    public ArrayList<TaiKhoanNguoiDung> LayDSTKNguoiDung() {
+    public void GetDataTKNguoiDung() {
         db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -327,17 +306,21 @@ public class FragmentNguoiDung extends Fragment {
                 }
             }
         });
-        return dataTKNguoiDung;
     }
 
-    public void search(String str) {
-        ArrayList<NguoiDung> listNguoiDung = new ArrayList<>();
-        for (NguoiDung nguoiDung : dataNguoiDung) {
-            if (nguoiDung.getTenNguoiDung().toLowerCase().contains(str.toLowerCase())) {
-                listNguoiDung.add(nguoiDung);
+    //add data firestore
+    public void UpdateTKNguoiDung(TaiKhoanNguoiDung tknd) {
+        Map<String, String> map = new HashMap<>();
+        map.put("trangThaiTaiKhoan", tknd.getTrangThaiTaiKhoan());
+        map.put("tenTaiKhoan", tknd.getTenTaiKhoan());
+        map.put("email", tknd.getEmail());
+        map.put("matKhau", tknd.getMatKhau());
+        map.put("soDienThoai", tknd.getSoDienThoai());
+        db.collection(COLLECTION_KEY_2).document(tknd.getIdTKNguoiDung()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "trạng thái được update");
             }
-        }
-        adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
-        lvNguoiDung.setAdapter(adapterNguoiDung);
+        });
     }
 }
