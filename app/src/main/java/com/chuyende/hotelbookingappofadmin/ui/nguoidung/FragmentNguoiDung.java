@@ -2,20 +2,14 @@ package com.chuyende.hotelbookingappofadmin.ui.nguoidung;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -23,23 +17,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofadmin.R;
-import com.chuyende.hotelbookingappofadmin.adapter.CustomAdapterNguoiDung;
+import com.chuyende.hotelbookingappofadmin.adapter.AdapterNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanNguoiDung;
-import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -51,10 +40,11 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 public class FragmentNguoiDung extends Fragment {
     private final String COLLECTION_KEY_1 = "NguoiDung";
     private final String COLLECTION_KEY_2 = "TaiKhoanNguoiDung";
+    private AdapterNguoiDung.ItemClickListener listener;
     SearchView svNguoiDung;
     Button btnDangXuat;
-    ListView lvNguoiDung;
-    CustomAdapterNguoiDung adapterNguoiDung;
+    RecyclerView rvNguoiDung;
+    AdapterNguoiDung adapterNguoiDung;
     FirebaseFirestore db;
     NguoiDung nguoiDung;
     TaiKhoanNguoiDung taiKhoanNguoiDung;
@@ -199,18 +189,18 @@ public class FragmentNguoiDung extends Fragment {
 
         svNguoiDung = root.findViewById(R.id.svNguoiDung);
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
-        lvNguoiDung = root.findViewById(R.id.lvNguoiDung);
+        rvNguoiDung = root.findViewById(R.id.rvNguoiDung);
         db = FirebaseFirestore.getInstance();
-        registerForContextMenu(lvNguoiDung);
+        registerForContextMenu(rvNguoiDung);
         svNguoiDung.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchData(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapterNguoiDung.getFilter().filter(newText);
                 return false;
             }
         });
@@ -225,19 +215,23 @@ public class FragmentNguoiDung extends Fragment {
             }
         });
 
-        lvNguoiDung.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("mand", );
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+        setOnClickListener();
 
 
         return root;
+    }
+
+    private void setOnClickListener() {
+        listener = new AdapterNguoiDung.ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mand", dataNguoiDung.get(position).getIdNguoiDung());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        };
     }
 
     private void searchData(String query) {
@@ -253,8 +247,8 @@ public class FragmentNguoiDung extends Fragment {
                     }
                     listNguoiDung.add(nguoiDung);
                 }
-                adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, listNguoiDung);
-                lvNguoiDung.setAdapter(adapterNguoiDung);
+                adapterNguoiDung = new AdapterNguoiDung(getActivity(), listNguoiDung, listener);
+                rvNguoiDung.setAdapter(adapterNguoiDung);
                 Log.d(TAG, "Lấy dữ liệu thành công");
             }
         });
@@ -272,32 +266,11 @@ public class FragmentNguoiDung extends Fragment {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (DocumentSnapshot documentSnapshot : querySnapshot) {
                         nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                        if (nguoiDung != null) {
-                            nguoiDung.setIdNguoiDung(documentSnapshot.getId());
-                        }
+                        nguoiDung.setIdNguoiDung(documentSnapshot.getId());
                         dataNguoiDung.add(nguoiDung);
                     }
-                    adapterNguoiDung = new CustomAdapterNguoiDung(getActivity(), R.layout.custom_item_nguoidung, dataNguoiDung);
-                    lvNguoiDung.setAdapter(adapterNguoiDung);
-                    Log.d(TAG, "Lấy dữ liệu thành công");
-                } else {
-                    Log.d(TAG, "Có lỗi");
-                }
-            }
-        });
-    }
-
-    public void GetDataTKNguoiDung() {
-        db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    dataTKNguoiDung = new ArrayList<>();
-                    QuerySnapshot querySnapshot = task.getResult();
-                    for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                        taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                        dataTKNguoiDung.add(taiKhoanNguoiDung);
-                    }
+                    adapterNguoiDung = new AdapterNguoiDung(getActivity(), dataNguoiDung, listener);
+                    rvNguoiDung.setAdapter(adapterNguoiDung);
                     Log.d(TAG, "Lấy dữ liệu thành công");
                 } else {
                     Log.d(TAG, "Có lỗi");

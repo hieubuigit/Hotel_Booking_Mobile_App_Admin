@@ -1,4 +1,4 @@
 package com.chuyende.hotelbookingappofadmin.adapter;
 
-public class CustomAdapterThongKe {
+public class AdapterThongKe {
 }

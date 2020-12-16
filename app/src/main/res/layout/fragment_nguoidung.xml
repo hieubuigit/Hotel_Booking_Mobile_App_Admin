@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/template"
     android:orientation="vertical"
-    tools:context=".ui.nguoidung.FragmentNguoiDung">
+    tools:context=".ui.nguoidung.FragmentNguoiDung"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,9 +18,9 @@
 
         <SearchView
             android:id="@+id/svNguoiDung"
-            android:background="@drawable/edittext"
             android:layout_width="240dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/edittext" />
 
 
         <Button
@@ -27,23 +28,16 @@
             style="@style/button_logout"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="-2dp"
             android:background="@drawable/button_selector"
             android:text="@string/dangxuat" />
     </LinearLayout>
 
-
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNguoiDung"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ListView
-            android:id="@+id/lvNguoiDung"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/custom_item_nguoidung" />
 
 </LinearLayout>

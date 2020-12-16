@@ -12,16 +12,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chuyende.hotelbookingappofadmin.R;
-import com.chuyende.hotelbookingappofadmin.adapter.CustomAdapterNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
-import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 

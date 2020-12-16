@@ -12,12 +12,12 @@ import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
 
 import java.util.ArrayList;
 
-public class CustomAdapterKhachSan extends ArrayAdapter {
+public class AdapterKhachSan extends ArrayAdapter {
     Context context;
     int resource;
     ArrayList<KhachSan> data;
 
-    public CustomAdapterKhachSan(Context context, int resource, ArrayList<KhachSan> data) {
+    public AdapterKhachSan(Context context, int resource, ArrayList<KhachSan> data) {
         super(context, resource, data);
         this.context = context;
         this.resource = resource;
@@ -37,9 +37,9 @@ public class CustomAdapterKhachSan extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        CustomAdapterKhachSan.Holder holder = null;
+        AdapterKhachSan.Holder holder = null;
         if(view == null) {
-            holder = new CustomAdapterKhachSan.Holder();
+            holder = new AdapterKhachSan.Holder();
             view = LayoutInflater.from(context).inflate(resource, null);
             holder.tvTenKhachSan = view.findViewById(R.id.tvTenKS);
             holder.tvDiaChi = view.findViewById(R.id.tvDiaChi);
@@ -47,7 +47,7 @@ public class CustomAdapterKhachSan extends ArrayAdapter {
             view.setTag(holder);
         }
         else
-            holder=(CustomAdapterKhachSan.Holder)view.getTag();
+            holder=(AdapterKhachSan.Holder)view.getTag();
 
         final KhachSan khachSan = data.get(position);
 
