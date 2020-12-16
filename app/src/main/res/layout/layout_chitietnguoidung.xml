@@ -57,28 +57,13 @@
                 android:gravity="center"
                 android:text="@string/title_gioitinh" />
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:visibility="visible">
-
-                <LinearLayout style="@style/linear_h">
-
-                    <RadioButton
-                        android:id="@+id/radNam"
-                        style="@style/radio_button"
-                        android:checked="true"
-                        android:text="@string/rad_nam" />
-
-                    <RadioButton
-                        android:id="@+id/radNu"
-                        style="@style/radio_button"
-                        android:layout_marginLeft="70dp"
-                        android:text="@string/rad_nu" />
-                </LinearLayout>
-
-            </RadioGroup>
+            <TextView
+                android:id="@+id/tvGioiTinh"
+                style="@style/tv_regular"
+                android:layout_marginLeft="36dp"
+                android:background="@drawable/textview_chitiet"
+                android:gravity="center"
+                android:text="Nam" />
 
         </LinearLayout>
 

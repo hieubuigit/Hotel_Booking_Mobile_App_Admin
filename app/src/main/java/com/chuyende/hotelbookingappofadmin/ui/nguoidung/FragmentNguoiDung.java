@@ -54,7 +54,6 @@ public class FragmentNguoiDung extends Fragment {
     SearchView svNguoiDung;
     Button btnDangXuat;
     ListView lvNguoiDung;
-    FireStore_NguoiDung fbNguoiDung = new FireStore_NguoiDung();
     CustomAdapterNguoiDung adapterNguoiDung;
     FirebaseFirestore db;
     NguoiDung nguoiDung;
@@ -62,7 +61,6 @@ public class FragmentNguoiDung extends Fragment {
     ArrayList<NguoiDung> dataNguoiDung;
     ArrayList<NguoiDung> listNguoiDung = new ArrayList<>();
     ArrayList<TaiKhoanNguoiDung> dataTKNguoiDung;
-    Query tenNguoiDung;
     private NguoiDungViewModel dashboardViewModel;
 
     @Override
@@ -232,7 +230,7 @@ public class FragmentNguoiDung extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("mand", nguoiDung.getIdNguoiDung());
+                bundle.putString("mand", );
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
