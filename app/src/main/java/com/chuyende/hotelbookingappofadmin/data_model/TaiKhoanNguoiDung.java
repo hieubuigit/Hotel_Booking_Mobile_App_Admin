@@ -1,8 +1,7 @@
 package com.chuyende.hotelbookingappofadmin.data_model;
 
 public class TaiKhoanNguoiDung {
-    String idTKNguoiDung;
-    String tenTaiKhoan, matKhau, email, soDienThoai, trangThaiTaiKhoan;
+    String idTKNguoiDung, tenTaiKhoan, matKhau, email, soDienThoai, trangThaiTaiKhoan;
 
     public String getIdTKNguoiDung() {
         return idTKNguoiDung;

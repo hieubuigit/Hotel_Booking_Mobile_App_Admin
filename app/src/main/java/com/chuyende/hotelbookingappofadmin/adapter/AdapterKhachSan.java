@@ -1,66 +1,113 @@
 package com.chuyende.hotelbookingappofadmin.adapter;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
-
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class AdapterKhachSan extends ArrayAdapter {
+public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHolder> implements Filterable {
     Context context;
-    int resource;
-    ArrayList<KhachSan> data;
-
-    public AdapterKhachSan(Context context, int resource, ArrayList<KhachSan> data) {
-        super(context, resource, data);
+    ArrayList<KhachSan> listKhachSan;
+    ArrayList<KhachSan> listKhachSanAll;
+    private ItemClickListener listener;
+    public AdapterKhachSan(Context context, ArrayList<KhachSan> listKhachSan, ItemClickListener listener) {
         this.context = context;
-        this.resource = resource;
-        this.data = data;
+        this.listKhachSan = listKhachSan;
+        this.listener = listener;
+        this.listKhachSanAll = new ArrayList<>(listKhachSan);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(context).inflate(R.layout.custom_item_khachsan, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public int getCount() {
-        return data.size();
-    }
-
-    private static class Holder {
-        TextView tvTenKhachSan, tvDiaChi;
-        ImageView imgAnhKhachSan;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        AdapterKhachSan.Holder holder = null;
-        if(view == null) {
-            holder = new AdapterKhachSan.Holder();
-            view = LayoutInflater.from(context).inflate(resource, null);
-            holder.tvTenKhachSan = view.findViewById(R.id.tvTenKS);
-            holder.tvDiaChi = view.findViewById(R.id.tvDiaChi);
-            holder.imgAnhKhachSan = view.findViewById(R.id.imgAnhKhachSan);
-            view.setTag(holder);
-        }
-        else
-            holder=(AdapterKhachSan.Holder)view.getTag();
-
-        final KhachSan khachSan = data.get(position);
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        KhachSan khachSan = listKhachSan.get(position);
         holder.tvTenKhachSan.setText(khachSan.getTenKhachSan());
-        holder.tvDiaChi.setText(khachSan.getDiaChi());
-        if(khachSan.getUrlAnhKhachSan() == null){
-            holder.imgAnhKhachSan.setImageResource(R.drawable.hotel);
+        holder.tvDiaChiKS.setText(khachSan.getDiaDiemKhachSan());
+        holder.imgAnhDaiDienKS.setImageResource(R.drawable.hotel);
+    }
+
+    @Override
+    public int getItemCount() {
+        return listKhachSan.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<KhachSan> filteredList = new ArrayList<>();
+
+            if (charSequence.toString().isEmpty()) {
+                filteredList.addAll(listKhachSanAll);
+            } else {
+                for (KhachSan khachsan : listKhachSanAll) {
+                    if (khachsan.getTenKhachSan().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        filteredList.add(khachsan);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
         }
-//        else {
-//            Bitmap bmHinhDaiDien = BitmapFactory.decodeByteArray(nhanVien.getImage(), 0, nhanVien.getImage().length);
-//            bmHinhDaiDien = Bitmap.createScaledBitmap(bmHinhDaiDien, 80, 80, true);
-//            holder.imgAnhDaiDien.setImageBitmap(bmHinhDaiDien);
-//        }
-        return view;
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            listKhachSan.clear();
+            listKhachSan.addAll((Collection<? extends KhachSan>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+    //ánh xạ
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener{
+        TextView tvTenKhachSan, tvDiaChiKS;
+        ImageView imgAnhDaiDienKS;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tvTenKhachSan = itemView.findViewById(R.id.tvTenKS);
+            tvDiaChiKS = itemView.findViewById(R.id.tvDiaChiKS);
+            imgAnhDaiDienKS = itemView.findViewById(R.id.imgAnhKhachSan);
+            itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.onClick(v, getAdapterPosition());
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        }
+
+    }
+
+    public interface ItemClickListener {
+        void onClick(View view, int position);
     }
 }
+
+

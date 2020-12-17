@@ -3,7 +3,7 @@ package com.chuyende.hotelbookingappofadmin.data_model;
 import java.util.Arrays;
 
 public class KhachSan {
-    String maKhachSan, tenKhachSan, diaChi, thoiGian, maThanhToan, luotDat, tongDoanhThuKS, urlAnhKhachSan;
+    String maKhachSan, tenKhachSan, diaDiemKhachSan, ngayThanhToan, maThanhToan, soLuotDatThanhCong, doanhThu, anhDaiDienKS, tenTaiKhoanKhachSan;
 
     public String getMaKhachSan() {
         return maKhachSan;
@@ -21,20 +21,20 @@ public class KhachSan {
         this.tenKhachSan = tenKhachSan;
     }
 
-    public String getDiaChi() {
-        return diaChi;
+    public String getDiaDiemKhachSan() {
+        return diaDiemKhachSan;
     }
 
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
+    public void setDiaDiemKhachSan(String diaDiemKhachSan) {
+        this.diaDiemKhachSan = diaDiemKhachSan;
     }
 
-    public String getThoiGian() {
-        return thoiGian;
+    public String getNgayThanhToan() {
+        return ngayThanhToan;
     }
 
-    public void setThoiGian(String thoiGian) {
-        this.thoiGian = thoiGian;
+    public void setNgayThanhToan(String ngayThanhToan) {
+        this.ngayThanhToan = ngayThanhToan;
     }
 
     public String getMaThanhToan() {
@@ -45,41 +45,35 @@ public class KhachSan {
         this.maThanhToan = maThanhToan;
     }
 
-    public String getLuotDat() {
-        return luotDat;
+    public String getSoLuotDatThanhCong() {
+        return soLuotDatThanhCong;
     }
 
-    public void setLuotDat(String luotDat) {
-        this.luotDat = luotDat;
+    public void setSoLuotDatThanhCong(String soLuotDatThanhCong) {
+        this.soLuotDatThanhCong = soLuotDatThanhCong;
     }
 
-    public String getTongDoanhThuKS() {
-        return tongDoanhThuKS;
+    public String getDoanhThu() {
+        return doanhThu;
     }
 
-    public void setTongDoanhThuKS(String tongDoanhThuKS) {
-        this.tongDoanhThuKS = tongDoanhThuKS;
+    public void setDoanhThu(String doanhThu) {
+        this.doanhThu = doanhThu;
     }
 
-    public String getUrlAnhKhachSan() {
-        return urlAnhKhachSan;
+    public String getAnhDaiDienKS() {
+        return anhDaiDienKS;
     }
 
-    public void setUrlAnhKhachSan(String urlAnhKhachSan) {
-        this.urlAnhKhachSan = urlAnhKhachSan;
+    public void setAnhDaiDienKS(String anhDaiDienKS) {
+        this.anhDaiDienKS = anhDaiDienKS;
     }
 
-    @Override
-    public String toString() {
-        return "KhachSan{" +
-                "maKhachSan='" + maKhachSan + '\'' +
-                ", tenKhachSan='" + tenKhachSan + '\'' +
-                ", diaChi='" + diaChi + '\'' +
-                ", thoiGian='" + thoiGian + '\'' +
-                ", maThanhToan='" + maThanhToan + '\'' +
-                ", luotDat='" + luotDat + '\'' +
-                ", tongDoanhThuKS='" + tongDoanhThuKS + '\'' +
-                ", urlAnhKhachSan='" + urlAnhKhachSan + '\'' +
-                '}';
+    public String getTenTaiKhoanKhachSan() {
+        return tenTaiKhoanKhachSan;
+    }
+
+    public void setTenTaiKhoanKhachSan(String tenTaiKhoanKhachSan) {
+        this.tenTaiKhoanKhachSan = tenTaiKhoanKhachSan;
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/linear_v">
+    style="@style/linear_h">
 
     <LinearLayout
         style="@style/linear_v"
@@ -30,7 +30,7 @@
             android:text="Rex Hotel" />
 
         <TextView
-            android:id="@+id/tvDiaChi"
+            android:id="@+id/tvDiaChiKS"
             style="@style/tv_model_bold"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

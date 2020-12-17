@@ -16,11 +16,13 @@
         android:layout_margin="20dp"
         android:orientation="horizontal">
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/svNguoiDung"
             android:layout_width="240dp"
             android:layout_height="match_parent"
-            android:background="@drawable/edittext" />
+            android:background="@drawable/edittext"
+            app:iconifiedByDefault="false"
+            app:defaultQueryHint="Tên người dùng..."/>
 
 
         <Button

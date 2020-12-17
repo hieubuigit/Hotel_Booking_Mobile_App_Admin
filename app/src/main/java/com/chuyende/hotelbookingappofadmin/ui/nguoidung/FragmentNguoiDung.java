@@ -10,15 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.SearchView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.adapter.AdapterNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
@@ -30,7 +28,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,14 +46,13 @@ public class FragmentNguoiDung extends Fragment {
     NguoiDung nguoiDung;
     TaiKhoanNguoiDung taiKhoanNguoiDung;
     ArrayList<NguoiDung> dataNguoiDung;
-    ArrayList<NguoiDung> listNguoiDung = new ArrayList<>();
     ArrayList<TaiKhoanNguoiDung> dataTKNguoiDung;
     private NguoiDungViewModel dashboardViewModel;
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.context_menu, menu);
+        getActivity().getMenuInflater().inflate(R.menu.context_menu_nguoidung, menu);
     }
 
     @Override
@@ -74,9 +70,7 @@ public class FragmentNguoiDung extends Fragment {
                             QuerySnapshot querySnapshot = task.getResult();
                             for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                 taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                                if (taiKhoanNguoiDung != null) {
-                                    taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
-                                }
+                                taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
                                 dataTKNguoiDung.add(taiKhoanNguoiDung);
                             }
                             Log.d(TAG, "Lấy dữ liệu thành công");
@@ -88,9 +82,7 @@ public class FragmentNguoiDung extends Fragment {
                                         QuerySnapshot querySnapshot = task.getResult();
                                         for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                             nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                                            if (nguoiDung != null) {
-                                                nguoiDung.setIdNguoiDung(documentSnapshot.getId());
-                                            }
+                                            nguoiDung.setMaNguoiDung(documentSnapshot.getId());
                                             dataNguoiDung.add(nguoiDung);
                                         }
                                         Log.d(TAG, "Lấy dữ liệu thành công");
@@ -130,9 +122,7 @@ public class FragmentNguoiDung extends Fragment {
                             QuerySnapshot querySnapshot = task.getResult();
                             for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                 taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                                if (taiKhoanNguoiDung != null) {
-                                    taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
-                                }
+                                taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
                                 dataTKNguoiDung.add(taiKhoanNguoiDung);
                             }
                             Log.d(TAG, "Lấy dữ liệu thành công");
@@ -144,9 +134,7 @@ public class FragmentNguoiDung extends Fragment {
                                         QuerySnapshot querySnapshot = task.getResult();
                                         for (DocumentSnapshot documentSnapshot : querySnapshot) {
                                             nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                                            if (nguoiDung != null) {
-                                                nguoiDung.setIdNguoiDung(documentSnapshot.getId());
-                                            }
+                                            nguoiDung.setMaNguoiDung(documentSnapshot.getId());
                                             dataNguoiDung.add(nguoiDung);
                                         }
                                         Log.d(TAG, "Lấy dữ liệu thành công");
@@ -227,34 +215,12 @@ public class FragmentNguoiDung extends Fragment {
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), ChiTietNguoiDung.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("mand", dataNguoiDung.get(position).getIdNguoiDung());
+                bundle.putString("mand", dataNguoiDung.get(position).getMaNguoiDung());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         };
     }
-
-    private void searchData(String query) {
-        db.collection(COLLECTION_KEY_1).whereEqualTo("tenNguoiDung", query).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                listNguoiDung.clear();
-                QuerySnapshot querySnapshot = task.getResult();
-                for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                    nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                    if (nguoiDung != null) {
-                        nguoiDung.setIdNguoiDung(documentSnapshot.getId());
-                    }
-                    listNguoiDung.add(nguoiDung);
-                }
-                adapterNguoiDung = new AdapterNguoiDung(getActivity(), listNguoiDung, listener);
-                rvNguoiDung.setAdapter(adapterNguoiDung);
-                Log.d(TAG, "Lấy dữ liệu thành công");
-            }
-        });
-    }
-
-
 
     // get data from firestore, load into listview
     public void GetDataNguoiDung() {
@@ -266,7 +232,7 @@ public class FragmentNguoiDung extends Fragment {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (DocumentSnapshot documentSnapshot : querySnapshot) {
                         nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                        nguoiDung.setIdNguoiDung(documentSnapshot.getId());
+                        nguoiDung.setMaNguoiDung(documentSnapshot.getId());
                         dataNguoiDung.add(nguoiDung);
                     }
                     adapterNguoiDung = new AdapterNguoiDung(getActivity(), dataNguoiDung, listener);

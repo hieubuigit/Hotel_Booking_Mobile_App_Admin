@@ -1,17 +1,8 @@
 package com.chuyende.hotelbookingappofadmin.data_model;
 
 public class NguoiDung {
-    String idNguoiDung;
 
     String maNguoiDung, tenNguoiDung, gioiTinh, ngaySinh, quocTich, diaChi, email, soDienThoai, anhDaiDien, cmnd, tenTaiKhoan;
-
-    public String getIdNguoiDung() {
-        return idNguoiDung;
-    }
-
-    public void setIdNguoiDung(String idNguoiDung) {
-        this.idNguoiDung = idNguoiDung;
-    }
 
     public String getMaNguoiDung() {
         return maNguoiDung;
