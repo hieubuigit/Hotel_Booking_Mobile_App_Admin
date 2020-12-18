@@ -1,6 +1,7 @@
 package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,8 +17,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chuyende.hotelbookingappofadmin.R;
+import com.chuyende.hotelbookingappofadmin.data_model.DaDat;
 import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
 import com.chuyende.hotelbookingappofadmin.data_model.Phong;
+import com.chuyende.hotelbookingappofadmin.data_model.ThongKeKhachSan;
 import com.github.mikephil.charting.charts.BarChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,6 +43,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
     FirebaseFirestore db;
     ArrayList<KhachSan> dataKhachSan;
     ArrayList<Phong> dataPhong;
+    ArrayList<ThongKeKhachSan> dataThongKeKS;
 
     private static String KHACHSAN = "KhachSan";
     private static String PHONG = "Phong";
@@ -99,23 +103,17 @@ public class ChiTietKhachSan extends AppCompatActivity {
                         dataPhong.add(phong);
                     }
                     for (Phong p : dataPhong) {
-                        db.collection(DADAT).whereEqualTo("maPhong", p.getMaPhong()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        db.collection(DADAT).whereEqualTo("maPhong", p.getMaPhong()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (value != null) {
-                                    for (QueryDocumentSnapshot item : value) {
-
-                                    }
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DaDat daDat = new DaDat();
+                                    QuerySnapshot
                                 }
                             }
                         });
                     }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
             }
         });
     }
