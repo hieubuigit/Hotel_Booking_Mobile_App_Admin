@@ -3,7 +3,18 @@ package com.chuyende.hotelbookingappofadmin.data_model;
 import java.util.Arrays;
 
 public class KhachSan {
-    String maKhachSan, tenKhachSan, diaDiemKhachSan, ngayThanhToan, maThanhToan, soLuotDatThanhCong, doanhThu, anhDaiDienKS, tenTaiKhoanKhachSan;
+    String maKhachSan, tenKhachSan, diaDiemKhachSan, anhDaiDienKS, tenTaiKhoanKhachSan;
+
+    public KhachSan() {
+    }
+
+    public KhachSan(String maKhachSan, String tenKhachSan, String diaDiemKhachSan, String anhDaiDienKS, String tenTaiKhoanKhachSan) {
+        this.maKhachSan = maKhachSan;
+        this.tenKhachSan = tenKhachSan;
+        this.diaDiemKhachSan = diaDiemKhachSan;
+        this.anhDaiDienKS = anhDaiDienKS;
+        this.tenTaiKhoanKhachSan = tenTaiKhoanKhachSan;
+    }
 
     public String getMaKhachSan() {
         return maKhachSan;
@@ -27,38 +38,6 @@ public class KhachSan {
 
     public void setDiaDiemKhachSan(String diaDiemKhachSan) {
         this.diaDiemKhachSan = diaDiemKhachSan;
-    }
-
-    public String getNgayThanhToan() {
-        return ngayThanhToan;
-    }
-
-    public void setNgayThanhToan(String ngayThanhToan) {
-        this.ngayThanhToan = ngayThanhToan;
-    }
-
-    public String getMaThanhToan() {
-        return maThanhToan;
-    }
-
-    public void setMaThanhToan(String maThanhToan) {
-        this.maThanhToan = maThanhToan;
-    }
-
-    public String getSoLuotDatThanhCong() {
-        return soLuotDatThanhCong;
-    }
-
-    public void setSoLuotDatThanhCong(String soLuotDatThanhCong) {
-        this.soLuotDatThanhCong = soLuotDatThanhCong;
-    }
-
-    public String getDoanhThu() {
-        return doanhThu;
-    }
-
-    public void setDoanhThu(String doanhThu) {
-        this.doanhThu = doanhThu;
     }
 
     public String getAnhDaiDienKS() {

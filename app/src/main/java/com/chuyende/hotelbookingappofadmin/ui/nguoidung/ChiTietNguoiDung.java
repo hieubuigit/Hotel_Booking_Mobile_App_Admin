@@ -34,9 +34,12 @@ public class ChiTietNguoiDung extends AppCompatActivity {
         setContentView(R.layout.layout_chitietnguoidung);
         db = FirebaseFirestore.getInstance();
         setControl();
+        setEvent();
+    }
+
+    private void setEvent() {
         String maNguoiDung = getIntent().getExtras().getString("mand");
         getNguoiDung(maNguoiDung);
-
     }
 
     private void setControl() {
