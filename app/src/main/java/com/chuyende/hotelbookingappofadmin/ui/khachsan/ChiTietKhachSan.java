@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +27,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +43,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
     Switch swBieuDo;
     Spinner spLocThang;
     BarChart chart;
-    FirebaseFirestore db;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();;
     KhachSan khachSan;
     Phong phong;
     DaDat daDat;
@@ -62,7 +65,6 @@ public class ChiTietKhachSan extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.layout_chitietkhachsan);
-        db = FirebaseFirestore.getInstance();
         setControl();
         setEvent();
     }
@@ -97,6 +99,16 @@ public class ChiTietKhachSan extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     public void LayDataKS (String maKS) {
         db.collection(KHACHSAN).document(maKS).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -116,92 +128,52 @@ public class ChiTietKhachSan extends AppCompatActivity {
     }
 
     public void LayThongKeLuotDat(String maKS) {
-        db.collection(PHONG).whereEqualTo("maKhachSan", maKS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        dataThongKeLuotDat = new ArrayList<>();
+        db.collection(KHACHSAN).document(maKS).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                dataPhong = new ArrayList<>();
-                if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    for (DocumentSnapshot doc : querySnapshot) {
-                        phong = doc.toObject(Phong.class);
-                        phong.setMaPhong(doc.getId());
-                        dataPhong.add(phong);
-                    }
-                    for (Phong p : dataPhong) {
-                        db.collection(DADAT).whereEqualTo("maPhong", p.getMaPhong()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                dataDaDat = new ArrayList<>();
-                                if (task.isSuccessful()) {
-                                    QuerySnapshot querySnapshot1 = task.getResult();
-                                    for (DocumentSnapshot doc1 : querySnapshot1) {
-                                        daDat = doc1.toObject(DaDat.class);
-                                        daDat.setMaDat(doc1.getId());
-                                        dataDaDat.add(daDat);
-                                    }
-                                    db.collection(KHACHSAN).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            dataKhachSan = new ArrayList<>();
-                                            if (task.isSuccessful()) {
-                                                QuerySnapshot querySnapshot = task.getResult();
-                                                for (DocumentSnapshot doc : querySnapshot) {
-                                                    khachSan = doc.toObject(KhachSan.class);
-                                                    khachSan.setMaKhachSan(doc.getId());
-                                                    dataKhachSan.add(khachSan);
-                                                }
-                                                dataThongKeLuotDat = new ArrayList<>();
-                                                for (DaDat dd : dataDaDat) {
-                                                    int i;
-                                                    int thang = Integer.parseInt(dd.getNgayDatPhong().substring(3, 4));
-                                                    int nam = Integer.parseInt(dd.getNgayDatPhong().substring(6, 10));
-                                                    for (i = 1; i <= 12; i++) {
-                                                        if (thang == i) {
-                                                            for (KhachSan ks : dataKhachSan) {
-                                                                if (ks.getMaKhachSan().equalsIgnoreCase(p.getMaKhachSan())) {
-                                                                    tongLuotDat += p.getSoLuotDat();
-                                                                    thongKeLuotDat.setMaKhachSan(ks.getMaKhachSan());
-                                                                    thongKeLuotDat.setTenKhachSan(ks.getTenKhachSan());
-                                                                    thongKeLuotDat.setSoLuotDatThanhCong(tongLuotDat);
-                                                                    addThongKeLuotDat(thongKeLuotDat);
-                                                                    if (thang > 10) {
-                                                                        thongKeLuotDat.setThangDatPhong(thang + "/ " + nam);
-                                                                    }
-                                                                    else {
-                                                                        thongKeLuotDat.setThangDatPhong("0" + thang + "/ " + nam);
-                                                                    }
-
-
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-//                                                    for (KhachSan ks : dataKhachSan) {
-//                                                        if (ks.getMaKhachSan().equalsIgnoreCase(maKS)) {
-//
-//                                                            for (i = 1; i <= 12; i++) {
-//                                                                if (thang == i) {
-//                                                                    tongLuotDat += p.getSoLuotDat();
-//                                                                    thangDat = i + "/ " + nam;
-//                                                                    thongKeKS.setThangDatPhong(thangDat);
-//                                                                    thongKeKS.setMaKhachSan(ks.getMaKhachSan());
-//                                                                    thongKeKS.setTenKhachSan(ks.getTenKhachSan());
-//                                                                    thongKeKS.setSoLuotDatThanhCong(tongLuotDat);
-//                                                                    addThongKeKS(thongKeKS);
-//                                                                }
-//                                                            }
-//
-//                                                        }
-//                                                    }
-                                                }
-                                                Log.d(TAG, "đã thêm vào collection");
-                                            }
-                                        }
-                                    });
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.exists()) {
+                    khachSan = value.toObject(KhachSan.class);
+                    khachSan.setMaKhachSan(value.getId());
+                    Log.d(TAG, "Lấy dữ liệu thành công");
+                    db.collection(PHONG).whereEqualTo("maKhachSan", khachSan.getMaKhachSan()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                            for (DocumentSnapshot doc : value) {
+                                if (e != null) {
+                                    Toast.makeText(ChiTietKhachSan.this, "Có lỗi khi load dữ liệu phòng", Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, e.toString());
+                                    return;
+                                }
+                                if (doc.exists()) {
+                                    phong = doc.toObject(Phong.class);
+                                    dataPhong.add(phong);
                                 }
                             }
-                        });
-                    }
+                            for (Phong p : dataPhong) {
+                                db.collection(DADAT).whereEqualTo("maPhong", p.getMaPhong()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                                        if (e != null) {
+                                            Toast.makeText(ChiTietKhachSan.this, "Có lỗi khi load dữ liệu collection đã đặt", Toast.LENGTH_SHORT).show();
+                                            Log.d(TAG, e.toString());
+                                            return;
+                                        }
+                                        for (DocumentSnapshot doc : value) {
+                                            if (doc.exists()) {
+                                                
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                if (error != null) {
+                    Toast.makeText(ChiTietKhachSan.this, "Có lỗi khi load dữ liệu khách sạn", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
+                    return;
                 }
             }
         });
