@@ -3,7 +3,15 @@ package com.chuyende.hotelbookingappofadmin.data_model;
 public class DaDat {
     String maDat, maPhong, ngayDatPhong;
 
-    
+    public DaDat() {
+    }
+
+    public DaDat(String maDat, String maPhong, String ngayDatPhong) {
+        this.maDat = maDat;
+        this.maPhong = maPhong;
+        this.ngayDatPhong = ngayDatPhong;
+    }
+
     public String getMaDat() {
         return maDat;
     }

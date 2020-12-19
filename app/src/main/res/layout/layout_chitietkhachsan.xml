@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="@string/luotdat" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <Switch
             android:id="@+id/swBieuDo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
