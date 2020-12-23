@@ -1,6 +1,8 @@
 package com.chuyende.hotelbookingappofadmin.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
+import com.chuyende.hotelbookingappofadmin.ui.khachsan.FragmentKhachSan;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,6 +32,8 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
     ArrayList<KhachSan> listKhachSan;
     ArrayList<KhachSan> listKhachSanAll;
     private ItemClickListener listener;
+    private StorageReference mStorageRef;
+    private static String PATH_PHONG = "/media/khachSan/";
     public AdapterKhachSan(Context context, ArrayList<KhachSan> listKhachSan, ItemClickListener listener) {
         this.context = context;
         this.listKhachSan = listKhachSan;
@@ -37,10 +50,17 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         KhachSan khachSan = listKhachSan.get(position);
         holder.tvTenKhachSan.setText(khachSan.getTenKhachSan());
         holder.tvDiaChiKS.setText(khachSan.getDiaDiemKhachSan());
-        holder.imgAnhDaiDienKS.setImageResource(R.drawable.hotel);
+        String url = PATH_PHONG + khachSan.getMaKhachSan()+ "/" + khachSan.getMaKhachSan() + ".png";
+        mStorageRef.child(url).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(holder.itemView.getContext()).load(uri).into(holder.imgAnhDaiDienKS);
+            }
+        });
     }
 
     @Override
@@ -108,6 +128,8 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
     public interface ItemClickListener {
         void onClick(View view, int position);
     }
+
+
 }
 
 

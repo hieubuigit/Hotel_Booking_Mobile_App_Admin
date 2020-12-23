@@ -2,6 +2,7 @@ package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 
+import com.bumptech.glide.Glide;
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.DaThanhToan;
 import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
@@ -42,6 +44,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +59,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
     Spinner spLocThang;
     BarChart chart;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
     KhachSan khachSan;
     Phong phong;
     DaThanhToan daThanhToan;
@@ -62,6 +67,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
     ArrayList<Phong> dataPhong;
     String maKhachSan;
     ArrayAdapter adapterThang;
+    private static String PATH_PHONG = "/media/khachSan/";
     private static String KHACHSAN = "KhachSan";
     private static String PHONG = "Phong";
     private static String DATHANHTOAN = "DaThanhToan";
@@ -88,18 +94,6 @@ public class ChiTietKhachSan extends AppCompatActivity {
                 }
             }
         });
-
-        setEvent();
-
-    }
-
-    private void setEvent() {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
     }
 
@@ -139,6 +133,13 @@ public class ChiTietKhachSan extends AppCompatActivity {
                     khachSan.setMaKhachSan(docSnapshot.getId());
                     Log.d(TAG, "Lấy dữ liệu thành công");
                     tvTenKhachSan.setText(khachSan.getTenKhachSan());
+                    String url = PATH_PHONG + maKS+ "/" + maKS + ".jpg";
+                    mStorageRef.child(url).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(ChiTietKhachSan.this).load(uri).into(imgAnhDaiDienKS);
+                        }
+                    });
                 } else {
                     Log.d(TAG, "Có lỗi");
                 }

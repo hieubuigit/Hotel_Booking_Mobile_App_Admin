@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,9 @@ import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanKhachSan;
 import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanNguoiDung;
+import com.chuyende.hotelbookingappofadmin.data_model.TinhThanhPho;
+import com.chuyende.hotelbookingappofadmin.firebase.FireStore_TinhThanh;
+import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListTinhThanh;
 import com.chuyende.hotelbookingappofadmin.ui.nguoidung.ChiTietNguoiDung;
 import com.chuyende.hotelbookingappofadmin.ui.nguoidung.NguoiDungViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +52,7 @@ public class FragmentKhachSan extends Fragment {
     private final String COLLECTION_KEY_2 = "TaiKhoanKhachSan";
     private AdapterKhachSan.ItemClickListener listener;
     SearchView svKhachSan;
+    Spinner spLocTinhThanh;
     Button btnDangXuat;
     RecyclerView rvKhachSan;
     AdapterKhachSan adapterKhachSan;
@@ -55,6 +61,7 @@ public class FragmentKhachSan extends Fragment {
     TaiKhoanKhachSan taiKhoanKhachSan;
     ArrayList<KhachSan> dataKhachSan;
     ArrayList<TaiKhoanKhachSan> dataTKKhachSan;
+    FireStore_TinhThanh dbTinhThanh;
     private KhachSanViewModel dashboardViewModel;
 
     @Override
@@ -182,24 +189,63 @@ public class FragmentKhachSan extends Fragment {
         View root = inflater.inflate(R.layout.fragment_khachsan, container, false);
 
         svKhachSan = root.findViewById(R.id.svKhachSan);
+        spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         rvKhachSan = root.findViewById(R.id.rvKhachSan);
         db = FirebaseFirestore.getInstance();
-        registerForContextMenu(rvKhachSan);
-        svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        dbTinhThanh = new FireStore_TinhThanh();
+        dbTinhThanh.readAllDataTinhThanhPho(new CallBackListTinhThanh() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapterKhachSan.getFilter().filter(newText);
-                return false;
+            public void onDataGetListTinhThanh(ArrayList<TinhThanhPho> listTinhThanh) {
+                ArrayList<String> tinhThanhList = new ArrayList<>();
+                tinhThanhList.add("Tỉnh/Thành phố");
+                for (TinhThanhPho ttp : listTinhThanh) {
+                    tinhThanhList.add(ttp.getTinhThanhPho());
+                }
+                ArrayAdapter<String> adapterTinhThanh = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, tinhThanhList);
+                spLocTinhThanh.setAdapter(adapterTinhThanh);
+                adapterTinhThanh.notifyDataSetChanged();
             }
         });
 
         GetDataKhachSan();
+        registerForContextMenu(rvKhachSan);
+
+
+
+        spLocTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String tinhThanhPho = spLocTinhThanh.getOnItemSelectedListener().toString();
+                if (position == 0) {
+                    GetDataKhachSan();
+                    svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            adapterKhachSan.getFilter().filter(newText);
+                            return false;
+                        }
+                    });
+                }
+                else {
+                    if (svKhachSan.getQuery().toString().isEmpty()) {
+
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
 
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,6 +277,28 @@ public class FragmentKhachSan extends Fragment {
     // get data from firestore, load into listview
     public void GetDataKhachSan() {
         db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    dataKhachSan = new ArrayList<>();
+                    QuerySnapshot querySnapshot = task.getResult();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                        khachSan = documentSnapshot.toObject(KhachSan.class);
+                        khachSan.setMaKhachSan(documentSnapshot.getId());
+                        dataKhachSan.add(khachSan);
+                    }
+                    adapterKhachSan = new AdapterKhachSan(getActivity(), dataKhachSan, listener);
+                    rvKhachSan.setAdapter(adapterKhachSan);
+                    Log.d(TAG, "Lấy dữ liệu thành công");
+                } else {
+                    Log.d(TAG, "Có lỗi");
+                }
+            }
+        });
+    }
+
+    public void GetDataKhachSanByTinhThanh(String tinhThanh) {
+        db.collection(COLLECTION_KEY_1).whereEqualTo("diaDiemKhachSan", tinhThanh).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
