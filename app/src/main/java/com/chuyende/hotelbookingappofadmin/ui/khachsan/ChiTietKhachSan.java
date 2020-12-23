@@ -72,6 +72,11 @@ public class ChiTietKhachSan extends AppCompatActivity {
     private static String PHONG = "Phong";
     private static String DATHANHTOAN = "DaThanhToan";
     private static String TKDOANHTHUKS = "ThongKeDoanhThuKhachSan";
+    private static String MA_KHACH_SAN = "maKhachSan";
+    private static String DOANH_THU = "doanhThu";
+    private static String THANG_DOANH_THU = "thangDoanhThu";
+    private static String TEN_KHACH_SAN = "doanhThu";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -261,7 +266,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
                     khachSan = value.toObject(KhachSan.class);
                     khachSan.setMaKhachSan(value.getId());
                     thangDat = new ArrayList<>();
-                    db.collection(PHONG).whereEqualTo("maKhachSan", khachSan.getMaKhachSan()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    db.collection(PHONG).whereEqualTo(MA_KHACH_SAN, khachSan.getMaKhachSan()).addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                             dataPhong = new ArrayList<>();
@@ -332,10 +337,10 @@ public class ChiTietKhachSan extends AppCompatActivity {
                                                     chart.invalidate();
 
                                                     HashMap<String, Object> map = new HashMap<>();
-                                                    map.put("doanhThu", doanhThu);
-                                                    map.put("thangDoanhThu", thangDatPhong);
-                                                    map.put("maKhachSan", khachSan.getMaKhachSan());
-                                                    map.put("tenKhachSan", tvTenKhachSan.getText().toString());
+                                                    map.put(DOANH_THU, doanhThu);
+                                                    map.put(THANG_DOANH_THU, thangDatPhong);
+                                                    map.put(MA_KHACH_SAN, khachSan.getMaKhachSan());
+                                                    map.put(TEN_KHACH_SAN, tvTenKhachSan.getText().toString());
                                                     db.collection(TKDOANHTHUKS).add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {

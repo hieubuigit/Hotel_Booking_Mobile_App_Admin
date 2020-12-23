@@ -20,6 +20,8 @@ public class AdapterNguoiDung extends RecyclerView.Adapter<AdapterNguoiDung.View
     Context context;
     ArrayList<NguoiDung> listNguoiDung;
     ArrayList<NguoiDung> listNguoiDungAll;
+    private static String GIOI_TINH_NAM = "Nam";
+    private static String GIOI_TINH_NU = "Nu";
     private ItemClickListener listener;
     public AdapterNguoiDung(Context context, ArrayList<NguoiDung> listNguoiDung, ItemClickListener listener) {
         this.context = context;
@@ -42,10 +44,10 @@ public class AdapterNguoiDung extends RecyclerView.Adapter<AdapterNguoiDung.View
         holder.tvNgaySinh.setText(nguoiDung.getNgaySinh());
         holder.tvGioiTinh.setText(nguoiDung.getGioiTinh());
         holder.tvQuocTich.setText(nguoiDung.getQuocTich());
-        if (nguoiDung.getGioiTinh() == "Nam") {
+        if (nguoiDung.getGioiTinh() == GIOI_TINH_NAM) {
             holder.imgAnhDaiDien.setImageResource(R.drawable.men);
         }
-        if (nguoiDung.getGioiTinh() == "Nữ") {
+        if (nguoiDung.getGioiTinh() == GIOI_TINH_NU) {
             holder.imgAnhDaiDien.setImageResource(R.drawable.woman);
         }
     }

@@ -22,7 +22,6 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class ChiTietNguoiDung extends AppCompatActivity {
     TextView tvTenNguoiDung, tvNgaySinh, tvGioiTinh, tvQuocTich, tvCMND, tvDiaChi, tvEmail, tvSoDienThoai;
-    NguoiDung nguoiDung;
     FirebaseFirestore db;
     private final String COLLECTION_KEY = "NguoiDung";
 

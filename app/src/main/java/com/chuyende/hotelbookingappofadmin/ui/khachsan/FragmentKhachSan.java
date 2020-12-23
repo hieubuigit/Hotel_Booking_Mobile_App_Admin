@@ -50,6 +50,11 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 public class FragmentKhachSan extends Fragment {
     private final String COLLECTION_KEY_1 = "KhachSan";
     private final String COLLECTION_KEY_2 = "TaiKhoanKhachSan";
+    private static final String DIA_DIEM_KHACH_SAN = "diaDiemKhachSan";
+    private static final String TRANG_THAI_TAI_KHOAN = "trangThaiTaiKhoan";
+    private static final String TEN_TAI_KHOAN_KHACH_SAN = "tenTaiKhoanKhachSan";
+    private static final String MAT_KHAU = "matKhau";
+
     private AdapterKhachSan.ItemClickListener listener;
     SearchView svKhachSan;
     Spinner spLocTinhThanh;
@@ -298,7 +303,7 @@ public class FragmentKhachSan extends Fragment {
     }
 
     public void GetDataKhachSanByTinhThanh(String tinhThanh) {
-        db.collection(COLLECTION_KEY_1).whereEqualTo("diaDiemKhachSan", tinhThanh).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(COLLECTION_KEY_1).whereEqualTo(DIA_DIEM_KHACH_SAN, tinhThanh).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -322,9 +327,9 @@ public class FragmentKhachSan extends Fragment {
     //add data firestore
     public void UpdateTKKhachSan(TaiKhoanKhachSan tkks) {
         Map<String, String> map = new HashMap<>();
-        map.put("trangThaiTaiKhoan", tkks.getTrangThaiTaiKhoan());
-        map.put("tenTaiKhoanKhachSan", tkks.getTenTaiKhoanKhachSan());
-        map.put("matKhau", tkks.getMatKhau());
+        map.put(TRANG_THAI_TAI_KHOAN, tkks.getTrangThaiTaiKhoan());
+        map.put(TEN_TAI_KHOAN_KHACH_SAN, tkks.getTenTaiKhoanKhachSan());
+        map.put(MAT_KHAU, tkks.getMatKhau());
         db.collection(COLLECTION_KEY_2).document(tkks.getIdTaiKhoanKhachSan()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
