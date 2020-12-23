@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 
 import com.chuyende.hotelbookingappofadmin.R;
@@ -49,7 +51,7 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 public class ChiTietKhachSan extends AppCompatActivity {
     TextView tvTenKhachSan;
     ImageView imgAnhDaiDienKS;
-    Switch swBieuDo;
+    Switch swChart;
     Spinner spLocThang;
     BarChart chart;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -73,13 +75,26 @@ public class ChiTietKhachSan extends AppCompatActivity {
         setContentView(R.layout.layout_chitietkhachsan);
         maKhachSan = getIntent().getExtras().getString("maks");
         LayDataKS(maKhachSan);
-        setEvent();
         setControl();
+        LayBieuDoDaDatPhong(maKhachSan);
+        swChart.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    LayBieuDoDoanhThu(maKhachSan);
+                }
+                else {
+                    LayBieuDoDaDatPhong(maKhachSan);
+                }
+            }
+        });
+
+        setEvent();
 
     }
 
     private void setEvent() {
-        LayBieuDoDoanhThu(maKhachSan);
+
     }
 
     @Override
@@ -91,7 +106,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
     private void setControl() {
         imgAnhDaiDienKS = findViewById(R.id.imgAnhKhachSan);
         tvTenKhachSan = findViewById(R.id.tvTenKS);
-        swBieuDo = findViewById(R.id.swBieuDo);
+        swChart = findViewById(R.id.swBieuDo);
         spLocThang = findViewById(R.id.spLocThangKS);
         chart = findViewById(R.id.barchart_khachsan);
     }
@@ -210,7 +225,6 @@ public class ChiTietKhachSan extends AppCompatActivity {
                                                     chart.animateY(3000, Easing.EaseInOutBounce);
                                                     chart.invalidate();
                                                 }
-
                                                 @Override
                                                 public void onNothingSelected(AdapterView<?> parent) {
 
@@ -313,7 +327,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
                                                     dataSet.setValueTextSize(15);
                                                     chart.setDrawBarShadow(true);
                                                     dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                                                    chart.animateY(3000, Easing.EaseInOutBounce);
+                                                    chart.animateY(5000, Easing.EaseInOutBounce);
                                                     chart.invalidate();
 
                                                     HashMap<String, Object> map = new HashMap<>();
