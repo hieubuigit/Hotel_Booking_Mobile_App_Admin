@@ -199,6 +199,8 @@ public class FragmentKhachSan extends Fragment {
         rvKhachSan = root.findViewById(R.id.rvKhachSan);
         db = FirebaseFirestore.getInstance();
         dbTinhThanh = new FireStore_TinhThanh();
+
+        GetDataKhachSan();
         dbTinhThanh.readAllDataTinhThanhPho(new CallBackListTinhThanh() {
             @Override
             public void onDataGetListTinhThanh(ArrayList<TinhThanhPho> listTinhThanh) {
@@ -211,45 +213,11 @@ public class FragmentKhachSan extends Fragment {
                 spLocTinhThanh.setAdapter(adapterTinhThanh);
                 adapterTinhThanh.notifyDataSetChanged();
             }
+
         });
 
-        GetDataKhachSan();
         registerForContextMenu(rvKhachSan);
 
-
-
-        spLocTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String tinhThanhPho = spLocTinhThanh.getOnItemSelectedListener().toString();
-                if (position == 0) {
-                    GetDataKhachSan();
-                    svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                        @Override
-                        public boolean onQueryTextSubmit(String query) {
-                            return false;
-                        }
-                        @Override
-                        public boolean onQueryTextChange(String newText) {
-                            adapterKhachSan.getFilter().filter(newText);
-                            return false;
-                        }
-                    });
-                }
-                else {
-                    if (svKhachSan.getQuery().toString().isEmpty()) {
-
-                    }
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -277,7 +245,6 @@ public class FragmentKhachSan extends Fragment {
         };
     }
 
-    // get data from firestore, load into listview
     public void GetDataKhachSan() {
         db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -290,8 +257,32 @@ public class FragmentKhachSan extends Fragment {
                         khachSan.setMaKhachSan(documentSnapshot.getId());
                         dataKhachSan.add(khachSan);
                     }
-                    adapterKhachSan = new AdapterKhachSan(getActivity(), dataKhachSan, listener);
+                    adapterKhachSan = new AdapterKhachSan(dataKhachSan, getActivity(), listener);
                     rvKhachSan.setAdapter(adapterKhachSan);
+
+                    svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            adapterKhachSan.searchAndFilter(newText, spLocTinhThanh.getSelectedItem().toString());
+                            return false;
+                        }
+                    });
+
+                    spLocTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            adapterKhachSan.searchAndFilter(svKhachSan.getQuery().toString(), spLocTinhThanh.getSelectedItem().toString());
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                     Log.d(TAG, "Lấy dữ liệu thành công");
                 } else {
                     Log.d(TAG, "Có lỗi");
@@ -299,6 +290,7 @@ public class FragmentKhachSan extends Fragment {
             }
         });
     }
+
     //add data tài khoản khách sạn firestore
     public void UpdateTKKhachSan(TaiKhoanKhachSan tkks) {
         Map<String, String> map = new HashMap<>();

@@ -27,18 +27,18 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHolder> implements Filterable {
+public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHolder> {
     Context context;
-    ArrayList<KhachSan> listKhachSan;
-    ArrayList<KhachSan> listKhachSanAll;
+    ArrayList<KhachSan> listKhachSan = new ArrayList<>();
+    ArrayList<KhachSan> listKhachSanAll = new ArrayList<>();
     private ItemClickListener listener;
     private StorageReference mStorageRef;
     private static String PATH_PHONG = "/media/khachSan/";
-    public AdapterKhachSan(Context context, ArrayList<KhachSan> listKhachSan, ItemClickListener listener) {
+    private static String TAT_CA = "Tỉnh/Thành phố";
+    public AdapterKhachSan(ArrayList<KhachSan> listKhachSan, Context context, ItemClickListener listener) {
         this.context = context;
         this.listKhachSan = listKhachSan;
-        this.listener = listener;
-        this.listKhachSanAll = new ArrayList<>(listKhachSan);
+        this.listKhachSanAll.addAll(listKhachSan);
     }
 
     @NonNull
@@ -68,39 +68,6 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
         return listKhachSan.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<KhachSan> filteredList = new ArrayList<>();
-
-            if (charSequence.toString().isEmpty()) {
-                filteredList.addAll(listKhachSanAll);
-            } else {
-                for (KhachSan khachsan : listKhachSanAll) {
-                    if (khachsan.getTenKhachSan().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        filteredList.add(khachsan);
-                    }
-                }
-            }
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults results) {
-            listKhachSan.clear();
-            listKhachSan.addAll((Collection<? extends KhachSan>) results.values);
-            notifyDataSetChanged();
-        }
-    };
-
-
     //ánh xạ
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener{
         TextView tvTenKhachSan, tvDiaChiKS;
@@ -129,7 +96,45 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
         void onClick(View view, int position);
     }
 
-
+    // Filter and Search Khách sạn
+    public void searchAndFilter(String query, String itemKhachSanSelected) {
+        listKhachSan.clear();
+        //không search, không lọc
+        if (query.isEmpty() && itemKhachSanSelected.equals(TAT_CA)) {
+            listKhachSan.addAll(listKhachSanAll);
+        } else {
+            if (!query.isEmpty()) {
+                if (!itemKhachSanSelected.equals(TAT_CA)) {
+                    // Search + lọc Spinner Khach sạn
+                    query = query.toLowerCase();
+                    for (KhachSan ks : listKhachSanAll) {
+                        if (ks.getTenKhachSan().toLowerCase().contains(query) && ks.getDiaDiemKhachSan().equals(itemKhachSanSelected)) {
+                            listKhachSan.add(ks);
+                        }
+                    }
+                }
+                else {
+                    // Search, không lọc spinner
+                    query = query.toLowerCase();
+                    for (KhachSan ks : listKhachSanAll) {
+                        if (ks.getTenKhachSan().toLowerCase().contains(query)) {
+                            listKhachSan.add(ks);
+                        }
+                    }
+                }
+            } else {
+                if (!itemKhachSanSelected.equals(TAT_CA)) {
+                    // Spinner Loai Phong changed
+                    for (KhachSan ks : listKhachSanAll) {
+                        if (ks.getDiaDiemKhachSan().equals(itemKhachSanSelected)) {
+                            listKhachSan.add(ks);
+                        }
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 }
 
 

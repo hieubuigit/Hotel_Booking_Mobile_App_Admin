@@ -194,13 +194,13 @@ public class ChiTietKhachSan extends AppCompatActivity {
                                             }
                                             Log.d(TAG, "total item: " + daThanhToanlist.size());
                                             ArrayList<String> listThang = new ArrayList<>();
+                                            listThang.add("");
                                             for (String str : thangDat) {
                                                 if (!listThang.contains(str)) {
                                                     listThang.add(str);
                                                 }
                                             }
-                                            listThang.add("");
-                                            adapterThang = new ArrayAdapter(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, listThang);
+                                            adapterThang = new ArrayAdapter(ChiTietKhachSan.this, R.layout.support_simple_spinner_dropdown_item, listThang);
                                             spLocThang.setAdapter(adapterThang);
                                             spLocThang.setSelection(getIndex(spLocThang, ""));
                                             spLocThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -305,7 +305,7 @@ public class ChiTietKhachSan extends AppCompatActivity {
                                                 }
                                             }
                                             listThang.add("");
-                                            adapterThang = new ArrayAdapter(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, listThang);
+                                            adapterThang = new ArrayAdapter(ChiTietKhachSan.this, R.layout.support_simple_spinner_dropdown_item, listThang);
                                             spLocThang.setAdapter(adapterThang);
                                             spLocThang.setSelection(getIndex(spLocThang, ""));
                                             spLocThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

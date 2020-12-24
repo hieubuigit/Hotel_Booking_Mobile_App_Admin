@@ -55,11 +55,11 @@
 
     <Spinner
         android:id="@+id/spLocThangKS"
-        android:layout_width="226dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
-        android:background="@drawable/edittext" />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/edittext"
+        android:textAlignment="center" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barchart_khachsan"
