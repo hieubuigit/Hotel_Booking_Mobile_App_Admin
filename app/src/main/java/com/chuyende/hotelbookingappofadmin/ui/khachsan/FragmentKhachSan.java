@@ -249,9 +249,7 @@ public class FragmentKhachSan extends Fragment {
             }
         });
 
-
-
-
+        
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,30 +299,7 @@ public class FragmentKhachSan extends Fragment {
             }
         });
     }
-
-    public void GetDataKhachSanByTinhThanh(String tinhThanh) {
-        db.collection(COLLECTION_KEY_1).whereEqualTo(DIA_DIEM_KHACH_SAN, tinhThanh).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    dataKhachSan = new ArrayList<>();
-                    QuerySnapshot querySnapshot = task.getResult();
-                    for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                        khachSan = documentSnapshot.toObject(KhachSan.class);
-                        khachSan.setMaKhachSan(documentSnapshot.getId());
-                        dataKhachSan.add(khachSan);
-                    }
-                    adapterKhachSan = new AdapterKhachSan(getActivity(), dataKhachSan, listener);
-                    rvKhachSan.setAdapter(adapterKhachSan);
-                    Log.d(TAG, "Lấy dữ liệu thành công");
-                } else {
-                    Log.d(TAG, "Có lỗi");
-                }
-            }
-        });
-    }
-
-    //add data firestore
+    //add data tài khoản khách sạn firestore
     public void UpdateTKKhachSan(TaiKhoanKhachSan tkks) {
         Map<String, String> map = new HashMap<>();
         map.put(TRANG_THAI_TAI_KHOAN, tkks.getTrangThaiTaiKhoan());
