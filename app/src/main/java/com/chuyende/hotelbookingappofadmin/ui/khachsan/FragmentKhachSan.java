@@ -48,14 +48,14 @@ import java.util.Map;
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class FragmentKhachSan extends Fragment {
-    private final String COLLECTION_KEY_1 = "KhachSan";
-    private final String COLLECTION_KEY_2 = "TaiKhoanKhachSan";
-    private static final String DIA_DIEM_KHACH_SAN = "diaDiemKhachSan";
+    private static final String COLLECTION_KEY_1 = "KhachSan";
+    private static final String COLLECTION_KEY_2 = "TaiKhoanKhachSan";
     private static final String TRANG_THAI_TAI_KHOAN = "trangThaiTaiKhoan";
     private static final String TEN_TAI_KHOAN_KHACH_SAN = "tenTaiKhoanKhachSan";
     private static final String MAT_KHAU = "matKhau";
 
     private AdapterKhachSan.ItemClickListener listener;
+
     SearchView svKhachSan;
     Spinner spLocTinhThanh;
     Button btnDangXuat;
@@ -67,6 +67,7 @@ public class FragmentKhachSan extends Fragment {
     ArrayList<KhachSan> dataKhachSan;
     ArrayList<TaiKhoanKhachSan> dataTKKhachSan;
     FireStore_TinhThanh dbTinhThanh;
+
     private KhachSanViewModel dashboardViewModel;
 
     @Override
@@ -200,7 +201,7 @@ public class FragmentKhachSan extends Fragment {
         db = FirebaseFirestore.getInstance();
         dbTinhThanh = new FireStore_TinhThanh();
 
-        GetDataKhachSan();
+        getDataAndFilterKhachSan();
         dbTinhThanh.readAllDataTinhThanhPho(new CallBackListTinhThanh() {
             @Override
             public void onDataGetListTinhThanh(ArrayList<TinhThanhPho> listTinhThanh) {
@@ -245,7 +246,7 @@ public class FragmentKhachSan extends Fragment {
         };
     }
 
-    public void GetDataKhachSan() {
+    public void getDataAndFilterKhachSan() {
         db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -265,6 +266,7 @@ public class FragmentKhachSan extends Fragment {
                         public boolean onQueryTextSubmit(String query) {
                             return false;
                         }
+
                         @Override
                         public boolean onQueryTextChange(String newText) {
                             adapterKhachSan.searchAndFilter(newText, spLocTinhThanh.getSelectedItem().toString());

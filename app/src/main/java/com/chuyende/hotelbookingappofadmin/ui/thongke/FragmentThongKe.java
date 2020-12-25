@@ -25,7 +25,8 @@ public class FragmentThongKe extends Fragment {
         View root = inflater.inflate(R.layout.fragment_thongke, container, false);
         final Spinner spLocAdminThang = root.findViewById(R.id.spLocAdminThang);
         final TextView tvDoanhThuAdmin = root.findViewById(R.id.tvDoanhThuAdmin);
-        final Chart barchart_doanhthu_admin = root.findViewById(R.id.barchart_doanhthu_admin);
+        final Chart chartDoanhThuAdmin = root.findViewById(R.id.barchart_doanhthu_admin);
+
         return root;
     }
 }

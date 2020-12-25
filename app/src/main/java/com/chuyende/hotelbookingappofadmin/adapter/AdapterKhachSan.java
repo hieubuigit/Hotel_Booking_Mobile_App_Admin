@@ -35,6 +35,7 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
     private StorageReference mStorageRef;
     private static String PATH_PHONG = "/media/khachSan/";
     private static String TAT_CA = "Tỉnh/Thành phố";
+
     public AdapterKhachSan(ArrayList<KhachSan> listKhachSan, Context context, ItemClickListener listener) {
         this.context = context;
         this.listKhachSan = listKhachSan;
