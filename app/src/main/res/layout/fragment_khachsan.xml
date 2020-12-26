@@ -22,6 +22,7 @@
             android:background="@drawable/edittext"
             app:iconifiedByDefault="false"
             app:defaultQueryHint="Tên khách sạn"
+            android:focusable="false"
             />
 
         <Button

@@ -15,18 +15,32 @@
         android:layout_margin="20dp"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spLocAdminThang"
-            android:layout_width="180dp"
-            android:layout_height="45dp"
-            android:background="@drawable/edittext" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tvDoanhThuAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/edittext" />
+            <Spinner
+                android:id="@+id/spLocAdminThang"
+                android:layout_width="180dp"
+                android:layout_height="45dp"
+                android:background="@drawable/edittext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvDoanhThuAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/edittext"
+                android:gravity="center"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -34,6 +48,6 @@
         android:id="@+id/barchart_doanhthu_admin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

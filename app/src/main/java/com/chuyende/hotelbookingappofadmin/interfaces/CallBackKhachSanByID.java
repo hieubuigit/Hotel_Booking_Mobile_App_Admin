@@ -4,6 +4,6 @@ import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
 
 import java.util.ArrayList;
 
-public interface CallBackListKhachSan {
-    public void onDataCallBackListKhachSan(ArrayList<KhachSan> listKhachSan);
+public interface CallBackKhachSanByID {
+    public void onDataCallBackKhachSanbyID(KhachSan khachSan);
 }

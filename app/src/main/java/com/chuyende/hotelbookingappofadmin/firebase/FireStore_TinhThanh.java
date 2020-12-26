@@ -15,15 +15,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class FireStore_TinhThanh {
-    FirebaseFirestore db;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static final String COLLECTION_TINH_THANH_PHO = "TinhThanhPho";
     public static final String KEY_MA_TINH_THANH_PHO = "maTinhThanhPho";
     public static final String KEY_TINH_THANH_PHO = "tinhThanhPho";
-
-    public FireStore_TinhThanh() {
-        db = FirebaseFirestore.getInstance();
-    }
 
     public void readAllDataTinhThanhPho(CallBackListTinhThanh tinhThanhPhoCallback) {
         db.collection(COLLECTION_TINH_THANH_PHO).addSnapshotListener(new EventListener<QuerySnapshot>() {

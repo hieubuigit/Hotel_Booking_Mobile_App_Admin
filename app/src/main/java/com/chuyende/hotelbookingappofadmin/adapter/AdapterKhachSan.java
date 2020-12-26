@@ -39,6 +39,7 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
     public AdapterKhachSan(ArrayList<KhachSan> listKhachSan, Context context, ItemClickListener listener) {
         this.context = context;
         this.listKhachSan = listKhachSan;
+        this.listener = listener;
         this.listKhachSanAll.addAll(listKhachSan);
     }
 
