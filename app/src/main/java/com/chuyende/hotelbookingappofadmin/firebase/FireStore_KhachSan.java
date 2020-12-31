@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class FireStore_KhachSan {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
-
+    KhachSan khachSan;
+    ArrayList<KhachSan> listKhachSan;
     public static final String COLLECTION_KHACH_SAN = "KhachSan";
 
 
@@ -34,8 +34,8 @@ public class FireStore_KhachSan {
                     Log.d("DTT ---->", "value is null");
                 }
                 else {
-                    KhachSan khachSan = new KhachSan();
-                    ArrayList<KhachSan> listKhachSan = new ArrayList<>();
+                    khachSan = new KhachSan();
+                    listKhachSan = new ArrayList<>();
                     for (DocumentSnapshot doc : value) {
                         khachSan = doc.toObject(KhachSan.class);
                         listKhachSan.add(khachSan);
@@ -55,8 +55,8 @@ public class FireStore_KhachSan {
                     Log.d("DTT ---->", "value is null");
                 }
                 else {
-                    KhachSan khachSan = new KhachSan();
-                    ArrayList<KhachSan> listKhachSan = new ArrayList<>();
+                    khachSan = new KhachSan();
+                    listKhachSan = new ArrayList<>();
                     khachSan = value.toObject(KhachSan.class);
                     Log.d("Khách sạn ---->", "mã khách sạn: " + khachSan.getMaKhachSan() + ", tên khách sạn: " + khachSan.getTenKhachSan());
                     callBackKhachSanByID.onDataCallBackKhachSanbyID(khachSan);

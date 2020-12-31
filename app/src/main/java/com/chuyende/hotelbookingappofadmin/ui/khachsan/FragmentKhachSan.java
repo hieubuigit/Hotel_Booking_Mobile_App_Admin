@@ -23,20 +23,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.adapter.AdapterKhachSan;
-import com.chuyende.hotelbookingappofadmin.adapter.AdapterNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
-import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanKhachSan;
-import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanNguoiDung;
 import com.chuyende.hotelbookingappofadmin.data_model.TinhThanhPho;
+import com.chuyende.hotelbookingappofadmin.firebase.FireStore_KhachSan;
 import com.chuyende.hotelbookingappofadmin.firebase.FireStore_TinhThanh;
+import com.chuyende.hotelbookingappofadmin.firebase.Firestore_TKKhachSan;
+import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListKhachSan;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListTinhThanh;
-import com.chuyende.hotelbookingappofadmin.ui.nguoidung.ChiTietNguoiDung;
-import com.chuyende.hotelbookingappofadmin.ui.nguoidung.NguoiDungViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -53,6 +50,8 @@ public class FragmentKhachSan extends Fragment {
     private static final String TRANG_THAI_TAI_KHOAN = "trangThaiTaiKhoan";
     private static final String TEN_TAI_KHOAN_KHACH_SAN = "tenTaiKhoanKhachSan";
     private static final String MAT_KHAU = "matKhau";
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
 
     private AdapterKhachSan.ItemClickListener listener;
 
@@ -61,12 +60,15 @@ public class FragmentKhachSan extends Fragment {
     Button btnDangXuat;
     RecyclerView rvKhachSan;
     AdapterKhachSan adapterKhachSan;
-    FirebaseFirestore db;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FireStore_TinhThanh dbTinhThanh = new FireStore_TinhThanh();
+    FireStore_KhachSan dbKhachSan = new FireStore_KhachSan();
+    Firestore_TKKhachSan dbTKKhachSan = new Firestore_TKKhachSan();
     KhachSan khachSan;
     TaiKhoanKhachSan taiKhoanKhachSan;
     ArrayList<KhachSan> dataKhachSan;
     ArrayList<TaiKhoanKhachSan> dataTKKhachSan;
-    FireStore_TinhThanh dbTinhThanh;
+
 
     private KhachSanViewModel dashboardViewModel;
 
@@ -108,12 +110,12 @@ public class FragmentKhachSan extends Fragment {
                                         for (KhachSan ks : dataKhachSan) {
                                             for (TaiKhoanKhachSan tkks : dataTKKhachSan) {
                                                 if (tkks.getTenTaiKhoanKhachSan().equalsIgnoreCase(ks.getTenTaiKhoanKhachSan())) {
-                                                    if (tkks.getTrangThaiTaiKhoan().equals("true")) {
-                                                        tkks.setTrangThaiTaiKhoan("false");
+                                                    if (tkks.getTrangThaiTaiKhoan().equals(TRUE)) {
+                                                        tkks.setTrangThaiTaiKhoan(FALSE);
                                                         UpdateTKKhachSan(tkks);
                                                         Toast.makeText(getActivity(), "Okie, Tài khoản đã được khóa", Toast.LENGTH_SHORT).show();
                                                         break;
-                                                    } else if (tkks.getTrangThaiTaiKhoan().equals("false")) {
+                                                    } else if (tkks.getTrangThaiTaiKhoan().equals(FALSE)) {
                                                         Toast.makeText(getActivity(), "Tài khoản đã được khóa trước đây", Toast.LENGTH_SHORT).show();
                                                         break;
                                                     }
@@ -160,12 +162,12 @@ public class FragmentKhachSan extends Fragment {
                                         for (KhachSan ks : dataKhachSan) {
                                             for (TaiKhoanKhachSan tkks : dataTKKhachSan) {
                                                 if (tkks.getTenTaiKhoanKhachSan().equalsIgnoreCase(ks.getTenTaiKhoanKhachSan())) {
-                                                    if (tkks.getTrangThaiTaiKhoan().equals("false")) {
-                                                        tkks.setTrangThaiTaiKhoan("true");
+                                                    if (tkks.getTrangThaiTaiKhoan().equals(FALSE)) {
+                                                        tkks.setTrangThaiTaiKhoan(TRUE);
                                                         UpdateTKKhachSan(tkks);
                                                         Toast.makeText(getActivity(), "Okie, Tài khoản đã được mở khóa", Toast.LENGTH_SHORT).show();
                                                         break;
-                                                    } else if (tkks.getTrangThaiTaiKhoan().equals("true")) {
+                                                    } else if (tkks.getTrangThaiTaiKhoan().equals(TRUE)) {
                                                         Toast.makeText(getActivity(), "Tài khoản đã được mở khóa trước đây", Toast.LENGTH_SHORT).show();
                                                         break;
                                                     }
@@ -198,8 +200,6 @@ public class FragmentKhachSan extends Fragment {
         spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         rvKhachSan = root.findViewById(R.id.rvKhachSan);
-        db = FirebaseFirestore.getInstance();
-        dbTinhThanh = new FireStore_TinhThanh();
 
         getDataAndFilterKhachSan();
         dbTinhThanh.readAllDataTinhThanhPho(new CallBackListTinhThanh() {
@@ -247,48 +247,40 @@ public class FragmentKhachSan extends Fragment {
     }
 
     public void getDataAndFilterKhachSan() {
-        db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        dbKhachSan.getAllKhachSan(new CallBackListKhachSan() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    dataKhachSan = new ArrayList<>();
-                    QuerySnapshot querySnapshot = task.getResult();
-                    for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                        khachSan = documentSnapshot.toObject(KhachSan.class);
-                        khachSan.setMaKhachSan(documentSnapshot.getId());
-                        dataKhachSan.add(khachSan);
-                    }
-                    adapterKhachSan = new AdapterKhachSan(dataKhachSan, getActivity(), listener);
-                    rvKhachSan.setAdapter(adapterKhachSan);
-
-                    svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                        @Override
-                        public boolean onQueryTextSubmit(String query) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(String newText) {
-                            adapterKhachSan.searchAndFilter(newText, spLocTinhThanh.getSelectedItem().toString());
-                            return false;
-                        }
-                    });
-
-                    spLocTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            adapterKhachSan.searchAndFilter(svKhachSan.getQuery().toString(), spLocTinhThanh.getSelectedItem().toString());
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    Log.d(TAG, "Lấy dữ liệu thành công");
-                } else {
-                    Log.d(TAG, "Có lỗi");
+            public void onDataCallBackListKhachSan(ArrayList<KhachSan> listKhachSan) {
+                dataKhachSan = new ArrayList<>();
+                for (KhachSan ks : listKhachSan) {
+                    dataKhachSan.add(ks);
                 }
+                adapterKhachSan = new AdapterKhachSan(dataKhachSan, getActivity(), listener);
+                rvKhachSan.setAdapter(adapterKhachSan);
+
+                svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapterKhachSan.searchAndFilter(newText, spLocTinhThanh.getSelectedItem().toString());
+                        return false;
+                    }
+                });
+
+                spLocTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        adapterKhachSan.searchAndFilter(svKhachSan.getQuery().toString(), spLocTinhThanh.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
         });
     }
