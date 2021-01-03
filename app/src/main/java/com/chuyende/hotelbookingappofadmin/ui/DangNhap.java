@@ -27,8 +27,7 @@ public class DangNhap extends AppCompatActivity {
     Button btnDangNhap;
     EditText edtTenDangNhap;
     EditText edtMatKhau;
-    FirebaseFirestore firestore;
-    DocumentReference documentReference;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +36,6 @@ public class DangNhap extends AppCompatActivity {
         getSupportActionBar().hide();
         setControl();
         setEvent();
-        firestore = FirebaseFirestore.getInstance();
-        documentReference = firestore.collection("TaiKhoanAdmin").document();
     }
 
     private void setEvent() {
@@ -55,7 +52,7 @@ public class DangNhap extends AppCompatActivity {
             } else if (tenDangNhap.isEmpty() && matKhau.isEmpty()) {
                 Toast.makeText(DangNhap.this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
             } else if (!(tenDangNhap.isEmpty() && !matKhau.isEmpty())) {
-                firestore.collection("TaiKhoanAdmin").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                db.collection("TaiKhoanAdmin").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {

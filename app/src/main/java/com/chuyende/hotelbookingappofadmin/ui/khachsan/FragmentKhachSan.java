@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofadmin.ui.khachsan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,9 +30,9 @@ import com.chuyende.hotelbookingappofadmin.data_model.TaiKhoanKhachSan;
 import com.chuyende.hotelbookingappofadmin.data_model.TinhThanhPho;
 import com.chuyende.hotelbookingappofadmin.firebase.FireStore_KhachSan;
 import com.chuyende.hotelbookingappofadmin.firebase.FireStore_TinhThanh;
-import com.chuyende.hotelbookingappofadmin.firebase.Firestore_TKKhachSan;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListKhachSan;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListTinhThanh;
+import com.chuyende.hotelbookingappofadmin.ui.DangNhap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -60,10 +62,11 @@ public class FragmentKhachSan extends Fragment {
     Button btnDangXuat;
     RecyclerView rvKhachSan;
     AdapterKhachSan adapterKhachSan;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FireStore_TinhThanh dbTinhThanh = new FireStore_TinhThanh();
     FireStore_KhachSan dbKhachSan = new FireStore_KhachSan();
-    Firestore_TKKhachSan dbTKKhachSan = new Firestore_TKKhachSan();
+
     KhachSan khachSan;
     TaiKhoanKhachSan taiKhoanKhachSan;
     ArrayList<KhachSan> dataKhachSan;
@@ -222,8 +225,24 @@ public class FragmentKhachSan extends Fragment {
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChiTietKhachSan.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn có muốn thoát không ?");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(), DangNhap.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
@@ -256,6 +275,7 @@ public class FragmentKhachSan extends Fragment {
                 }
                 adapterKhachSan = new AdapterKhachSan(dataKhachSan, getActivity(), listener);
                 rvKhachSan.setAdapter(adapterKhachSan);
+                adapterKhachSan.notifyDataSetChanged();
 
                 svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override

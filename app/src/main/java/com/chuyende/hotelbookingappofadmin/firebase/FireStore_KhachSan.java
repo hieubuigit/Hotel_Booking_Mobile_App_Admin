@@ -33,7 +33,7 @@ public class FireStore_KhachSan {
                 if (error != null) {
                     Log.d("DTT ---->", "value is null");
                 }
-                else {
+                if (value != null) {
                     khachSan = new KhachSan();
                     listKhachSan = new ArrayList<>();
                     for (DocumentSnapshot doc : value) {
@@ -56,7 +56,6 @@ public class FireStore_KhachSan {
                 }
                 else {
                     khachSan = new KhachSan();
-                    listKhachSan = new ArrayList<>();
                     khachSan = value.toObject(KhachSan.class);
                     Log.d("Khách sạn ---->", "mã khách sạn: " + khachSan.getMaKhachSan() + ", tên khách sạn: " + khachSan.getTenKhachSan());
                     callBackKhachSanByID.onDataCallBackKhachSanbyID(khachSan);

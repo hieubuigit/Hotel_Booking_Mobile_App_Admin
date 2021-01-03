@@ -41,7 +41,6 @@ public class FragmentThongKe extends Fragment {
 
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
     public Firestore_DaThanhToan dbThanhToan = new Firestore_DaThanhToan();
-
     public static final String ALL = "Default";
 
     Spinner spLocAdminThang;

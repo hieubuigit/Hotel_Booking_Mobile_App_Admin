@@ -18,8 +18,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class Menu extends AppCompatActivity {
-    ActionBar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +38,7 @@ public class Menu extends AppCompatActivity {
         });
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_khachsan, R.id.navigation_nguoidung, R.id.navigation_thongke)
-                .build();
+                R.id.navigation_khachsan, R.id.navigation_nguoidung, R.id.navigation_thongke).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
     }

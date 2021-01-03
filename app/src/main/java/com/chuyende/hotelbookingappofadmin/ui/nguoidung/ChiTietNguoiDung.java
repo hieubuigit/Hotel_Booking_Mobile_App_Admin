@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
+import com.chuyende.hotelbookingappofadmin.firebase.FireStore_NguoiDung;
+import com.chuyende.hotelbookingappofadmin.interfaces.CallBackNguoiDungByID;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,8 +24,9 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class ChiTietNguoiDung extends AppCompatActivity {
     TextView tvTenNguoiDung, tvNgaySinh, tvGioiTinh, tvQuocTich, tvCMND, tvDiaChi, tvEmail, tvSoDienThoai;
-    FirebaseFirestore db;
-    private final String COLLECTION_KEY = "NguoiDung";
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FireStore_NguoiDung dbNguoiDung = new FireStore_NguoiDung();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +34,6 @@ public class ChiTietNguoiDung extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.layout_chitietnguoidung);
-        db = FirebaseFirestore.getInstance();
         setControl();
         setEvent();
     }
@@ -69,25 +71,17 @@ public class ChiTietNguoiDung extends AppCompatActivity {
     }
 
     public void getNguoiDung(String maNguoiDung) {
-        db.collection(COLLECTION_KEY).document(maNguoiDung).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        dbNguoiDung.getNguoiDungByID(maNguoiDung, new CallBackNguoiDungByID() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    NguoiDung nguoiDung = new NguoiDung();
-                    DocumentSnapshot docSnapshot = task.getResult();
-                    nguoiDung = docSnapshot.toObject(NguoiDung.class);
-                    Log.d(TAG, "Lấy dữ liệu thành công");
-                    tvTenNguoiDung.setText(nguoiDung.getTenNguoiDung());
-                    tvNgaySinh.setText(nguoiDung.getNgaySinh());
-                    tvGioiTinh.setText(nguoiDung.getGioiTinh());
-                    tvQuocTich.setText(nguoiDung.getQuocTich());
-                    tvCMND.setText(nguoiDung.getCmnd());
-                    tvDiaChi.setText(nguoiDung.getDiaChi());
-                    tvEmail.setText(nguoiDung.getEmail());
-                    tvSoDienThoai.setText(nguoiDung.getSoDienThoai());
-                } else {
-                    Log.d(TAG, "Có lỗi");
-                }
+            public void onDataCallBackNguoiDungByID(NguoiDung nguoiDung) {
+                tvTenNguoiDung.setText(nguoiDung.getTenNguoiDung());
+                tvNgaySinh.setText(nguoiDung.getNgaySinh());
+                tvGioiTinh.setText(nguoiDung.getGioiTinh());
+                tvQuocTich.setText(nguoiDung.getQuocTich());
+                tvCMND.setText(nguoiDung.getCmnd());
+                tvDiaChi.setText(nguoiDung.getDiaChi());
+                tvEmail.setText(nguoiDung.getEmail());
+                tvSoDienThoai.setText(nguoiDung.getSoDienThoai());
             }
         });
     }
