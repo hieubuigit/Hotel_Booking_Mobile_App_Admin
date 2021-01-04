@@ -53,8 +53,7 @@ public class FireStore_KhachSan {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     Log.d("DTT ---->", "value is null");
-                }
-                else {
+                } else {
                     khachSan = new KhachSan();
                     khachSan = value.toObject(KhachSan.class);
                     Log.d("Khách sạn ---->", "mã khách sạn: " + khachSan.getMaKhachSan() + ", tên khách sạn: " + khachSan.getTenKhachSan());

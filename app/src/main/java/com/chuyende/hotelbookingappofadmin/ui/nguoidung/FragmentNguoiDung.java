@@ -224,7 +224,7 @@ public class FragmentNguoiDung extends Fragment {
                     }
                 });
                 AlertDialog alertDialog = builder.create();
-                alertDialog .show();
+                alertDialog.show();
 
             }
         });
@@ -263,7 +263,7 @@ public class FragmentNguoiDung extends Fragment {
                     adapterNguoiDung.notifyDataSetChanged();
                 }
             });
-        }catch (Exception e) {
+        } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
     }
@@ -283,7 +283,7 @@ public class FragmentNguoiDung extends Fragment {
                     Log.d(TAG, "trạng thái được update");
                 }
             });
-        }catch (Exception e) {
+        } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
 

@@ -1,4 +1,5 @@
 package com.chuyende.hotelbookingappofadmin.adapter;
+
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.chuyende.hotelbookingappofadmin.R;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,6 +26,7 @@ public class AdapterNguoiDung extends RecyclerView.Adapter<AdapterNguoiDung.View
     private static String GIOI_TINH_NAM = "Nam";
     private static String GIOI_TINH_NU = "Nu";
     private ItemClickListener listener;
+
     public AdapterNguoiDung(Context context, ArrayList<NguoiDung> listNguoiDung, ItemClickListener listener) {
         this.context = context;
         this.listNguoiDung = listNguoiDung;
@@ -91,9 +95,10 @@ public class AdapterNguoiDung extends RecyclerView.Adapter<AdapterNguoiDung.View
 
 
     //ánh xạ
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         TextView tvTenNguoiDung, tvNgaySinh, tvGioiTinh, tvQuocTich;
         ImageView imgAnhDaiDien;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tvTenNguoiDung = itemView.findViewById(R.id.tvTenNguoiDung);
@@ -105,16 +110,16 @@ public class AdapterNguoiDung extends RecyclerView.Adapter<AdapterNguoiDung.View
             itemView.setOnCreateContextMenuListener(this);
         }
 
-    @Override
-    public void onClick(View v) {
-        listener.onClick(v, getAdapterPosition());
-    }
+        @Override
+        public void onClick(View v) {
+            listener.onClick(v, getAdapterPosition());
+        }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-    }
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        }
 
-}
+    }
 
     public interface ItemClickListener {
         void onClick(View view, int position);

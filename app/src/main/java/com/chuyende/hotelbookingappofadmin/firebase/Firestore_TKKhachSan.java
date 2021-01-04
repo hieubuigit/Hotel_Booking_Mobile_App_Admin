@@ -24,8 +24,7 @@ public class Firestore_TKKhachSan {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     Log.d("DTT ---->", "value is null");
-                }
-                else {
+                } else {
                     TaiKhoanKhachSan taiKhoanKhachSan = new TaiKhoanKhachSan();
                     ArrayList<TaiKhoanKhachSan> listTKKhachSan = new ArrayList<>();
                     for (DocumentSnapshot doc : value) {

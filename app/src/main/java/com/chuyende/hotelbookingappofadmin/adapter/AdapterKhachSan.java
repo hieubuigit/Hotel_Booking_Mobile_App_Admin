@@ -11,6 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +57,7 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
         KhachSan khachSan = listKhachSan.get(position);
         holder.tvTenKhachSan.setText(khachSan.getTenKhachSan());
         holder.tvDiaChiKS.setText(khachSan.getDiaDiemKhachSan());
-        String url = PATH_PHONG + khachSan.getMaKhachSan()+ "/" + khachSan.getMaKhachSan() + ".png";
+        String url = PATH_PHONG + khachSan.getMaKhachSan() + "/" + khachSan.getMaKhachSan() + ".png";
         mStorageRef.child(url).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -71,9 +72,10 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
     }
 
     //ánh xạ
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         TextView tvTenKhachSan, tvDiaChiKS;
         ImageView imgAnhDaiDienKS;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tvTenKhachSan = itemView.findViewById(R.id.tvTenKS);
@@ -114,8 +116,7 @@ public class AdapterKhachSan extends RecyclerView.Adapter<AdapterKhachSan.ViewHo
                             listKhachSan.add(ks);
                         }
                     }
-                }
-                else {
+                } else {
                     // Search, không lọc spinner
                     query = query.toLowerCase();
                     for (KhachSan ks : listKhachSanAll) {

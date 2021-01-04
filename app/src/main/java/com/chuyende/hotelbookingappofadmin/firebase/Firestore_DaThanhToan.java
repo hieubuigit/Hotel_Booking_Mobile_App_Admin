@@ -21,7 +21,7 @@ public class Firestore_DaThanhToan {
     public final static String TRANG_THAI_THANH_TOAN = "trangThaiHoanTatThanhToan";
     public final static String NGAY_THANH_TOAN = "ngayThanhToan";
 
-    //
+
     public void getAllThang(CallBackListThang callBackListThang) {
         db.collection(DA_THANH_TOAN).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -52,8 +52,7 @@ public class Firestore_DaThanhToan {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     Log.d("DTT ---->", "value is null");
-                }
-                else {
+                } else {
                     DaThanhToan dtt = new DaThanhToan();
                     ArrayList<DaThanhToan> listDaThanhToan = new ArrayList<>();
                     for (DocumentSnapshot doc : value) {

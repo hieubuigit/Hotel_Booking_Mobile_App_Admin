@@ -50,8 +50,7 @@ public class FireStore_NguoiDung {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     Log.d("DTT ---->", "value is null");
-                }
-                else {
+                } else {
                     nguoiDung = new NguoiDung();
                     nguoiDung = value.toObject(NguoiDung.class);
                     Log.d("Người dùng ---->", "mã người dùng: " + nguoiDung.getMaNguoiDung() + ", tên người dùng: " + nguoiDung.getTenNguoiDung());

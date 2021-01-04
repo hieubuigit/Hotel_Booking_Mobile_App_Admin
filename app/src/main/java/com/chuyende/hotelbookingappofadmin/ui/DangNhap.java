@@ -63,13 +63,11 @@ public class DangNhap extends AppCompatActivity {
                                     Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                     Intent intoMenu = new Intent(DangNhap.this, Menu.class);
                                     startActivity(intoMenu);
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
