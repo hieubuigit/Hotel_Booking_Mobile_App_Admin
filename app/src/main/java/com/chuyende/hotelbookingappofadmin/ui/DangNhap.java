@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chuyende.hotelbookingappofadmin.R;
+import com.chuyende.hotelbookingappofadmin.library.LoadingDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,7 +32,9 @@ public class DangNhap extends AppCompatActivity {
     Button btnDangNhap;
     EditText edtTenDangNhap;
     EditText edtMatKhau;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    LoadingDialog loadingDialog = new LoadingDialog(DangNhap.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +68,19 @@ public class DangNhap extends AppCompatActivity {
                                     String username = edtTenDangNhap.getText().toString().trim();
                                     String pass = edtMatKhau.getText().toString().trim();
                                     if (doc.getString("tenTaiKhoan").equalsIgnoreCase(username) && doc.getString("matKhau").equalsIgnoreCase(pass)) {
-                                        Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                        Intent intoMenu = new Intent(DangNhap.this, Menu.class);
-                                        startActivity(intoMenu);
+                                        loadingDialog.startLoadingDialog();
+                                        Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                loadingDialog.dismissDialog();
+                                                Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                                Intent intoMenu = new Intent(DangNhap.this, Menu.class);
+                                                startActivity(intoMenu);
+                                            }
+
+                                        }, 1000);
+
                                     } else {
                                         Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                                     }
