@@ -71,18 +71,22 @@ public class ChiTietNguoiDung extends AppCompatActivity {
     }
 
     public void getNguoiDung(String maNguoiDung) {
-        dbNguoiDung.getNguoiDungByID(maNguoiDung, new CallBackNguoiDungByID() {
-            @Override
-            public void onDataCallBackNguoiDungByID(NguoiDung nguoiDung) {
-                tvTenNguoiDung.setText(nguoiDung.getTenNguoiDung());
-                tvNgaySinh.setText(nguoiDung.getNgaySinh());
-                tvGioiTinh.setText(nguoiDung.getGioiTinh());
-                tvQuocTich.setText(nguoiDung.getQuocTich());
-                tvCMND.setText(nguoiDung.getCmnd());
-                tvDiaChi.setText(nguoiDung.getDiaChi());
-                tvEmail.setText(nguoiDung.getEmail());
-                tvSoDienThoai.setText(nguoiDung.getSoDienThoai());
-            }
-        });
+        try {
+            dbNguoiDung.getNguoiDungByID(maNguoiDung, new CallBackNguoiDungByID() {
+                @Override
+                public void onDataCallBackNguoiDungByID(NguoiDung nguoiDung) {
+                    tvTenNguoiDung.setText(nguoiDung.getTenNguoiDung());
+                    tvNgaySinh.setText(nguoiDung.getNgaySinh());
+                    tvGioiTinh.setText(nguoiDung.getGioiTinh());
+                    tvQuocTich.setText(nguoiDung.getQuocTich());
+                    tvCMND.setText(nguoiDung.getCmnd());
+                    tvDiaChi.setText(nguoiDung.getDiaChi());
+                    tvEmail.setText(nguoiDung.getEmail());
+                    tvSoDienThoai.setText(nguoiDung.getSoDienThoai());
+                }
+            });
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+        }
     }
 }

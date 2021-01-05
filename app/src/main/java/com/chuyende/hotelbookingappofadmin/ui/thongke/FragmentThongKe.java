@@ -31,8 +31,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
@@ -47,6 +49,9 @@ public class FragmentThongKe extends Fragment {
     TextView tvDoanhThuAdmin;
     BarChart chartDoanhThuAdmin;
 
+    Locale localeVN = new Locale("vi", "VN");
+    NumberFormat currencyVN = NumberFormat.getCurrencyInstance((localeVN));
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
@@ -59,57 +64,61 @@ public class FragmentThongKe extends Fragment {
         dbThanhToan.getAllDaThanhToan(new CallBackListThanhToan() {
             @Override
             public void onDataCallBackDaThanhToan(ArrayList<DaThanhToan> listDaThanhToan) {
-                dbThanhToan.getAllThang(new CallBackListThang() {
-                    @Override
-                    public void onDataGetListThang(ArrayList<String> listThang) {
-                        ArrayList<String> listThangFilter = new ArrayList<>();
-                        listThangFilter.add(ALL);
-                        for (String thang : listThang) {
-                            if (!listThangFilter.contains(thang)) {
-                                listThangFilter.add(thang);
-                            }
-                        }
-                        ArrayAdapter<String> adapterTinhThanh = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, listThangFilter);
-                        spLocAdminThang.setAdapter(adapterTinhThanh);
-                        adapterTinhThanh.notifyDataSetChanged();
-                        spLocAdminThang.setSelection(getIndex(spLocAdminThang, ""));
-                        spLocAdminThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                ArrayList<BarEntry> entries = new ArrayList<>();
-                                String thangDatPhong = spLocAdminThang.getSelectedItem().toString();
-                                Log.d(TAG, "tháng đc chọn trong spinner: " + thangDatPhong);
-
-                                int doanhThu = 0;
-                                for (DaThanhToan dtt : listDaThanhToan) {
-                                    if (dtt.getNgayThanhToan().substring(3, 10).equals(thangDatPhong) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
-                                        doanhThu += dtt.getTongThanhToan();
-
-                                    }
+                try {
+                    dbThanhToan.getAllThang(new CallBackListThang() {
+                        @Override
+                        public void onDataGetListThang(ArrayList<String> listThang) {
+                            ArrayList<String> listThangFilter = new ArrayList<>();
+                            listThangFilter.add(ALL);
+                            for (String thang : listThang) {
+                                if (!listThangFilter.contains(thang)) {
+                                    listThangFilter.add(thang);
                                 }
-                                Log.d(TAG, "tổng doanh thu: " + doanhThu);
-                                tvDoanhThuAdmin.setText(doanhThu + " vnd");
-                                entries.add(new BarEntry(0, doanhThu));
-                                BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Đã đặt");
-                                BarData data = new BarData(dataSet);
-                                chartDoanhThuAdmin.setData(data);
-                                data.setValueTextColor(Color.BLUE);
-                                dataSet.setBarShadowColor(Color.WHITE);
-                                dataSet.setValueTextSize(15);
-                                chartDoanhThuAdmin.setDrawBarShadow(true);
-                                dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                                chartDoanhThuAdmin.animateY(3000, Easing.EaseInOutBounce);
-                                chartDoanhThuAdmin.invalidate();
-
                             }
+                            ArrayAdapter<String> adapterTinhThanh = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, listThangFilter);
+                            spLocAdminThang.setAdapter(adapterTinhThanh);
+                            adapterTinhThanh.notifyDataSetChanged();
+                            spLocAdminThang.setSelection(getIndex(spLocAdminThang, ""));
+                            spLocAdminThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    ArrayList<BarEntry> entries = new ArrayList<>();
+                                    String thangDatPhong = spLocAdminThang.getSelectedItem().toString();
+                                    Log.d(TAG, "tháng đc chọn trong spinner: " + thangDatPhong);
 
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
+                                    int doanhThu = 0;
+                                    for (DaThanhToan dtt : listDaThanhToan) {
+                                        if (dtt.getNgayThanhToan().substring(3, 10).equals(thangDatPhong) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
+                                            doanhThu += dtt.getTongThanhToan();
 
-                            }
-                        });
-                    }
-                });
+                                        }
+                                    }
+                                    Log.d(TAG, "tổng doanh thu: " + doanhThu);
+                                    tvDoanhThuAdmin.setText(currencyVN.format(doanhThu));
+                                    entries.add(new BarEntry(0, doanhThu));
+                                    BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Đã đặt");
+                                    BarData data = new BarData(dataSet);
+                                    chartDoanhThuAdmin.setData(data);
+                                    data.setValueTextColor(Color.BLUE);
+                                    dataSet.setBarShadowColor(Color.WHITE);
+                                    dataSet.setValueTextSize(15);
+                                    chartDoanhThuAdmin.setDrawBarShadow(true);
+                                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                                    chartDoanhThuAdmin.animateY(3000, Easing.EaseInOutBounce);
+                                    chartDoanhThuAdmin.invalidate();
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
             }
         });
 

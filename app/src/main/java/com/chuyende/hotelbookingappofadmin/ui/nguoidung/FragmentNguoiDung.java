@@ -67,111 +67,126 @@ public class FragmentNguoiDung extends Fragment {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Map<String, Object> map = new HashMap<>();
         switch (item.getItemId()) {
             case R.id.lock_user:
-                db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            dataTKNguoiDung = new ArrayList<>();
-                            QuerySnapshot querySnapshot = task.getResult();
-                            for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                                taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                                taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
-                                dataTKNguoiDung.add(taiKhoanNguoiDung);
-                            }
-                            Log.d(TAG, "Lấy dữ liệu thành công");
-                            db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        dataNguoiDung = new ArrayList<>();
-                                        QuerySnapshot querySnapshot = task.getResult();
-                                        for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                                            nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                                            nguoiDung.setMaNguoiDung(documentSnapshot.getId());
-                                            dataNguoiDung.add(nguoiDung);
-                                        }
-                                        Log.d(TAG, "Lấy dữ liệu thành công");
-                                        for (NguoiDung nd : dataNguoiDung) {
-                                            for (TaiKhoanNguoiDung tknd : dataTKNguoiDung) {
-                                                if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
-                                                    if (tknd.getTrangThaiTaiKhoan().equals("true")) {
-                                                        tknd.setTrangThaiTaiKhoan("false");
-                                                        UpdateTKNguoiDung(tknd);
-                                                        Toast.makeText(getActivity(), "Okie, Tài khoản đã được khóa", Toast.LENGTH_SHORT).show();
-                                                        break;
-                                                    } else if (tknd.getTrangThaiTaiKhoan().equals("false")) {
-                                                        Toast.makeText(getActivity(), "Tài khoản đã được khóa trước đây", Toast.LENGTH_SHORT).show();
-                                                        break;
+                try {
+                    db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                dataTKNguoiDung = new ArrayList<>();
+                                QuerySnapshot querySnapshot = task.getResult();
+                                for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                                    taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
+                                    taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
+                                    dataTKNguoiDung.add(taiKhoanNguoiDung);
+                                }
+                                Log.d(TAG, "Lấy dữ liệu thành công");
+                                try {
+                                    db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                dataNguoiDung = new ArrayList<>();
+                                                QuerySnapshot querySnapshot = task.getResult();
+                                                for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                                                    nguoiDung = documentSnapshot.toObject(NguoiDung.class);
+                                                    nguoiDung.setMaNguoiDung(documentSnapshot.getId());
+                                                    dataNguoiDung.add(nguoiDung);
+                                                }
+                                                Log.d(TAG, "Lấy dữ liệu thành công");
+                                                for (NguoiDung nd : dataNguoiDung) {
+                                                    for (TaiKhoanNguoiDung tknd : dataTKNguoiDung) {
+                                                        if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
+                                                            if (tknd.getTrangThaiTaiKhoan().equals("true")) {
+                                                                tknd.setTrangThaiTaiKhoan("false");
+                                                                UpdateTKNguoiDung(tknd);
+                                                                Toast.makeText(getActivity(), "Okie, Tài khoản đã được khóa", Toast.LENGTH_SHORT).show();
+                                                                break;
+                                                            } else if (tknd.getTrangThaiTaiKhoan().equals("false")) {
+                                                                Toast.makeText(getActivity(), "Tài khoản đã được khóa trước đây", Toast.LENGTH_SHORT).show();
+                                                                break;
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                            } else {
+                                                Log.d(TAG, "Có lỗi");
                                             }
                                         }
-                                    } else {
-                                        Log.d(TAG, "Có lỗi");
-                                    }
-                                }
 
-                            });
-                        } else {
-                            Log.d(TAG, "Có lỗi");
+                                    });
+                                } catch (Exception e) {
+                                    Log.d(TAG, e.toString());
+                                }
+                            } else {
+                                Log.d(TAG, "Có lỗi");
+                            }
                         }
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
                 return true;
             case R.id.unlock_user:
-                db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            dataTKNguoiDung = new ArrayList<>();
-                            QuerySnapshot querySnapshot = task.getResult();
-                            for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                                taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
-                                taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
-                                dataTKNguoiDung.add(taiKhoanNguoiDung);
-                            }
-                            Log.d(TAG, "Lấy dữ liệu thành công");
-                            db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        dataNguoiDung = new ArrayList<>();
-                                        QuerySnapshot querySnapshot = task.getResult();
-                                        for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                                            nguoiDung = documentSnapshot.toObject(NguoiDung.class);
-                                            nguoiDung.setMaNguoiDung(documentSnapshot.getId());
-                                            dataNguoiDung.add(nguoiDung);
-                                        }
-                                        Log.d(TAG, "Lấy dữ liệu thành công");
-                                        for (NguoiDung nd : dataNguoiDung) {
-                                            for (TaiKhoanNguoiDung tknd : dataTKNguoiDung) {
-                                                if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
-                                                    if (tknd.getTrangThaiTaiKhoan().equals("false")) {
-                                                        tknd.setTrangThaiTaiKhoan("true");
-                                                        UpdateTKNguoiDung(tknd);
-                                                        Toast.makeText(getActivity(), "Okie, Tài khoản đã được mở khóa", Toast.LENGTH_SHORT).show();
-                                                        break;
-                                                    } else if (tknd.getTrangThaiTaiKhoan().equals("true")) {
-                                                        Toast.makeText(getActivity(), "Tài khoản đã được mở khóa trước đây", Toast.LENGTH_SHORT).show();
-                                                        break;
+                try {
+                    db.collection(COLLECTION_KEY_2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                dataTKNguoiDung = new ArrayList<>();
+                                QuerySnapshot querySnapshot = task.getResult();
+                                for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                                    taiKhoanNguoiDung = documentSnapshot.toObject(TaiKhoanNguoiDung.class);
+                                    taiKhoanNguoiDung.setIdTKNguoiDung(documentSnapshot.getId());
+                                    dataTKNguoiDung.add(taiKhoanNguoiDung);
+                                }
+                                Log.d(TAG, "Lấy dữ liệu thành công");
+                                try {
+                                    db.collection(COLLECTION_KEY_1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                dataNguoiDung = new ArrayList<>();
+                                                QuerySnapshot querySnapshot = task.getResult();
+                                                for (DocumentSnapshot documentSnapshot : querySnapshot) {
+                                                    nguoiDung = documentSnapshot.toObject(NguoiDung.class);
+                                                    nguoiDung.setMaNguoiDung(documentSnapshot.getId());
+                                                    dataNguoiDung.add(nguoiDung);
+                                                }
+                                                Log.d(TAG, "Lấy dữ liệu thành công");
+                                                for (NguoiDung nd : dataNguoiDung) {
+                                                    for (TaiKhoanNguoiDung tknd : dataTKNguoiDung) {
+                                                        if (tknd.getTenTaiKhoan().equalsIgnoreCase(nd.getTenTaiKhoan())) {
+                                                            if (tknd.getTrangThaiTaiKhoan().equals("false")) {
+                                                                tknd.setTrangThaiTaiKhoan("true");
+                                                                UpdateTKNguoiDung(tknd);
+                                                                Toast.makeText(getActivity(), "Okie, Tài khoản đã được mở khóa", Toast.LENGTH_SHORT).show();
+                                                                break;
+                                                            } else if (tknd.getTrangThaiTaiKhoan().equals("true")) {
+                                                                Toast.makeText(getActivity(), "Tài khoản đã được mở khóa trước đây", Toast.LENGTH_SHORT).show();
+                                                                break;
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                            } else {
+                                                Log.d(TAG, "Có lỗi");
                                             }
                                         }
-                                    } else {
-                                        Log.d(TAG, "Có lỗi");
-                                    }
-                                }
 
-                            });
-                        } else {
-                            Log.d(TAG, "Có lỗi");
+                                    });
+                                } catch (Exception e) {
+                                    Log.d(TAG, e.toString());
+                                }
+                            } else {
+                                Log.d(TAG, "Có lỗi");
+                            }
                         }
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
                 return true;
         }
         return super.onContextItemSelected(item);

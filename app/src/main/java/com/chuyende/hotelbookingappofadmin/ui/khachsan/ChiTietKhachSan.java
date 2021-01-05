@@ -60,7 +60,6 @@ public class ChiTietKhachSan extends AppCompatActivity {
     Spinner spLocThang;
     BarChart chart;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     FireStore_KhachSan dbKhachSan = new FireStore_KhachSan();
     Firestore_Phong dbPhong = new Firestore_Phong();
     Firestore_DaThanhToan dbDaThanhToan = new Firestore_DaThanhToan();
@@ -123,163 +122,183 @@ public class ChiTietKhachSan extends AppCompatActivity {
 
 
     public void LayDataKS(String maKS) {
-        dbKhachSan.getKhachSanByID(maKS, new CallBackKhachSanByID() {
-            @Override
-            public void onDataCallBackKhachSanbyID(KhachSan khachSan) {
-                tvTenKhachSan.setText(khachSan.getTenKhachSan());
-                String url = PATH_PHONG + maKS + "/" + maKS + ".jpg";
-                mStorageRef.child(url).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(ChiTietKhachSan.this).load(uri).into(imgAnhDaiDienKS);
-                    }
-                });
-            }
-        });
+        try {
+            dbKhachSan.getKhachSanByID(maKS, new CallBackKhachSanByID() {
+                @Override
+                public void onDataCallBackKhachSanbyID(KhachSan khachSan) {
+                    tvTenKhachSan.setText(khachSan.getTenKhachSan());
+                    String url = PATH_PHONG + maKS + "/" + maKS + ".jpg";
+                    mStorageRef.child(url).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(ChiTietKhachSan.this).load(uri).into(imgAnhDaiDienKS);
+                        }
+                    });
+                }
+            });
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+        }
     }
 
 
     public void LayBieuDoDaDatPhong(String maKS) {
-        dbKhachSan.getKhachSanByID(maKS, new CallBackKhachSanByID() {
-            @Override
-            public void onDataCallBackKhachSanbyID(KhachSan khachSan) {
-                thangDat = new ArrayList<>();
-                dbPhong.getAllPhongByMaKS(maKS, new CallBackListPhongByKSID() {
-                    @Override
-                    public void onDataGetListPhongByKSID(ArrayList<Phong> listPhong) {
-                        for (Phong p : listPhong) {
-                            dbDaThanhToan.getAllDaThanhToan(new CallBackListThanhToan() {
-                                @Override
-                                public void onDataCallBackDaThanhToan(ArrayList<DaThanhToan> listDaThanhToan) {
-                                    for (DaThanhToan dtt : listDaThanhToan) {
-                                        if (dtt.getMaPhong().equalsIgnoreCase(p.getMaPhong()) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
-                                            thangDat.add(dtt.getNgayThanhToan().substring(3, 10));
-                                        }
-                                    }
-                                    Log.d(TAG, "total item: " + listDaThanhToan.size());
-                                    ArrayList<String> listThang = new ArrayList<>();
-                                    listThang.add(DEFAULT);
-                                    for (String str : thangDat) {
-                                        if (!listThang.contains(str)) {
-                                            listThang.add(str);
-                                        }
-                                    }
-                                    adapterThang = new ArrayAdapter(ChiTietKhachSan.this, R.layout.support_simple_spinner_dropdown_item, listThang);
-                                    spLocThang.setAdapter(adapterThang);
-                                    adapterThang.notifyDataSetChanged();
-                                    spLocThang.setSelection(getIndex(spLocThang, ""));
-                                    spLocThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        try {
+            dbKhachSan.getKhachSanByID(maKS, new CallBackKhachSanByID() {
+                @Override
+                public void onDataCallBackKhachSanbyID(KhachSan khachSan) {
+                    thangDat = new ArrayList<>();
+                    dbPhong.getAllPhongByMaKS(maKS, new CallBackListPhongByKSID() {
+                        @Override
+                        public void onDataGetListPhongByKSID(ArrayList<Phong> listPhong) {
+                            for (Phong p : listPhong) {
+                                try {
+                                    dbDaThanhToan.getAllDaThanhToan(new CallBackListThanhToan() {
                                         @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                            ArrayList<BarEntry> entries = new ArrayList<>();
-                                            String thangDatPhong = spLocThang.getSelectedItem().toString();
-
-                                            Log.d(TAG, "tháng đc chọn trong spinner: " + thangDatPhong);
-
-                                            int tongLuotDat = 0;
+                                        public void onDataCallBackDaThanhToan(ArrayList<DaThanhToan> listDaThanhToan) {
                                             for (DaThanhToan dtt : listDaThanhToan) {
-
-                                                if (dtt.getMaPhong().contains(khachSan.getMaKhachSan()) && dtt.getNgayThanhToan().substring(3, 10).equals(thangDatPhong) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
-                                                    tongLuotDat++;
+                                                if (dtt.getMaPhong().equalsIgnoreCase(p.getMaPhong()) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
+                                                    thangDat.add(dtt.getNgayThanhToan().substring(3, 10));
                                                 }
                                             }
-                                            Log.d(TAG, "tổng lượt đặt: " + tongLuotDat);
-                                            entries.add(new BarEntry(0, tongLuotDat));
-                                            BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Đã đặt");
-                                            BarData data = new BarData(dataSet);
-                                            chart.setData(data);
-                                            data.setValueTextColor(Color.BLUE);
-                                            dataSet.setBarShadowColor(Color.WHITE);
-                                            dataSet.setValueTextSize(15);
-                                            chart.setDrawBarShadow(true);
-                                            dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                                            chart.animateY(3000, Easing.EaseInOutBounce);
-                                            chart.invalidate();
-                                        }
+                                            Log.d(TAG, "total item: " + listDaThanhToan.size());
+                                            ArrayList<String> listThang = new ArrayList<>();
+                                            listThang.add(DEFAULT);
+                                            for (String str : thangDat) {
+                                                if (!listThang.contains(str)) {
+                                                    listThang.add(str);
+                                                }
+                                            }
+                                            adapterThang = new ArrayAdapter(ChiTietKhachSan.this, R.layout.support_simple_spinner_dropdown_item, listThang);
+                                            spLocThang.setAdapter(adapterThang);
+                                            adapterThang.notifyDataSetChanged();
+                                            spLocThang.setSelection(getIndex(spLocThang, ""));
+                                            spLocThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                    ArrayList<BarEntry> entries = new ArrayList<>();
+                                                    String thangDatPhong = spLocThang.getSelectedItem().toString();
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
+                                                    Log.d(TAG, "tháng đc chọn trong spinner: " + thangDatPhong);
 
+                                                    int tongLuotDat = 0;
+                                                    for (DaThanhToan dtt : listDaThanhToan) {
+
+                                                        if (dtt.getMaPhong().contains(khachSan.getMaKhachSan()) && dtt.getNgayThanhToan().substring(3, 10).equals(thangDatPhong) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
+                                                            tongLuotDat++;
+                                                        }
+                                                    }
+                                                    Log.d(TAG, "tổng lượt đặt: " + tongLuotDat);
+                                                    entries.add(new BarEntry(0, tongLuotDat));
+                                                    BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Đã đặt");
+                                                    BarData data = new BarData(dataSet);
+                                                    chart.setData(data);
+                                                    data.setValueTextColor(Color.BLUE);
+                                                    dataSet.setBarShadowColor(Color.WHITE);
+                                                    dataSet.setValueTextSize(15);
+                                                    chart.setDrawBarShadow(true);
+                                                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                                                    chart.animateY(3000, Easing.EaseInOutBounce);
+                                                    chart.invalidate();
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                                }
+                                            });
                                         }
                                     });
+                                } catch (Exception e) {
+                                    Log.d(TAG, e.toString());
                                 }
-                            });
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+        }
     }
 
     public void LayBieuDoDoanhThu(String maKS) {
-        dbKhachSan.getKhachSanByID(maKS, new CallBackKhachSanByID() {
-            @Override
-            public void onDataCallBackKhachSanbyID(KhachSan khachSan) {
-                thangDat = new ArrayList<>();
-                dbPhong.getAllPhongByMaKS(maKS, new CallBackListPhongByKSID() {
-                    @Override
-                    public void onDataGetListPhongByKSID(ArrayList<Phong> listPhong) {
-                        for (Phong p : listPhong) {
-                            dbDaThanhToan.getAllDaThanhToan(new CallBackListThanhToan() {
-                                @Override
-                                public void onDataCallBackDaThanhToan(ArrayList<DaThanhToan> listDaThanhToan) {
-                                    for (DaThanhToan dtt : listDaThanhToan) {
-                                        if (dtt.getMaPhong().equalsIgnoreCase(p.getMaPhong()) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
-                                            thangDat.add(dtt.getNgayThanhToan().substring(3, 10));
-                                        }
-                                    }
-                                    Log.d(TAG, "total item: " + listDaThanhToan.size());
-                                    ArrayList<String> listThang = new ArrayList<>();
-                                    listThang.add(DEFAULT);
-                                    for (String str : thangDat) {
-                                        if (!listThang.contains(str)) {
-                                            listThang.add(str);
-                                        }
-                                    }
-                                    adapterThang = new ArrayAdapter(ChiTietKhachSan.this, R.layout.support_simple_spinner_dropdown_item, listThang);
-                                    spLocThang.setAdapter(adapterThang);
-                                    spLocThang.setSelection(getIndex(spLocThang, ""));
-                                    spLocThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        try {
+            dbKhachSan.getKhachSanByID(maKS, new CallBackKhachSanByID() {
+                @Override
+                public void onDataCallBackKhachSanbyID(KhachSan khachSan) {
+                    thangDat = new ArrayList<>();
+                    dbPhong.getAllPhongByMaKS(maKS, new CallBackListPhongByKSID() {
+                        @Override
+                        public void onDataGetListPhongByKSID(ArrayList<Phong> listPhong) {
+                            for (Phong p : listPhong) {
+                                try {
+                                    dbDaThanhToan.getAllDaThanhToan(new CallBackListThanhToan() {
                                         @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                            ArrayList<BarEntry> entries = new ArrayList<>();
-                                            String thangDatPhong = spLocThang.getSelectedItem().toString();
-
-                                            Log.d(TAG, "tháng đc chọn trong spinner: " + thangDatPhong);
-
-                                            int doanhThu = 0;
+                                        public void onDataCallBackDaThanhToan(ArrayList<DaThanhToan> listDaThanhToan) {
                                             for (DaThanhToan dtt : listDaThanhToan) {
-
-                                                if (dtt.getMaPhong().contains(khachSan.getMaKhachSan()) && dtt.getNgayThanhToan().substring(3, 10).equals(thangDatPhong) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
-                                                    doanhThu += dtt.getTongThanhToan();
+                                                if (dtt.getMaPhong().equalsIgnoreCase(p.getMaPhong()) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
+                                                    thangDat.add(dtt.getNgayThanhToan().substring(3, 10));
                                                 }
                                             }
-                                            Log.d(TAG, "tổng lượt đặt: " + doanhThu);
-                                            entries.add(new BarEntry(0, doanhThu));
-                                            BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Doanh thu");
-                                            BarData data = new BarData(dataSet);
-                                            chart.setData(data);
-                                            data.setValueTextColor(Color.BLUE);
-                                            dataSet.setBarShadowColor(Color.WHITE);
-                                            dataSet.setValueTextSize(15);
-                                            chart.setDrawBarShadow(true);
-                                            dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                                            chart.animateY(3000, Easing.EaseInOutBounce);
-                                            chart.invalidate();
-                                        }
+                                            Log.d(TAG, "total item: " + listDaThanhToan.size());
+                                            ArrayList<String> listThang = new ArrayList<>();
+                                            listThang.add(DEFAULT);
+                                            for (String str : thangDat) {
+                                                if (!listThang.contains(str)) {
+                                                    listThang.add(str);
+                                                }
+                                            }
+                                            adapterThang = new ArrayAdapter(ChiTietKhachSan.this, R.layout.support_simple_spinner_dropdown_item, listThang);
+                                            spLocThang.setAdapter(adapterThang);
+                                            spLocThang.setSelection(getIndex(spLocThang, ""));
+                                            spLocThang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                    ArrayList<BarEntry> entries = new ArrayList<>();
+                                                    String thangDatPhong = spLocThang.getSelectedItem().toString();
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
+                                                    Log.d(TAG, "tháng đc chọn trong spinner: " + thangDatPhong);
 
+                                                    int doanhThu = 0;
+                                                    for (DaThanhToan dtt : listDaThanhToan) {
+
+                                                        if (dtt.getMaPhong().contains(khachSan.getMaKhachSan()) && dtt.getNgayThanhToan().substring(3, 10).equals(thangDatPhong) && dtt.getTrangThaiHoanTatThanhToan().equals("true")) {
+                                                            doanhThu += dtt.getTongThanhToan();
+                                                        }
+                                                    }
+                                                    Log.d(TAG, "doanh thu: " + doanhThu);
+                                                    entries.add(new BarEntry(0, doanhThu));
+                                                    BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Doanh thu");
+                                                    BarData data = new BarData(dataSet);
+                                                    chart.setData(data);
+                                                    data.setValueTextColor(Color.BLUE);
+                                                    dataSet.setBarShadowColor(Color.WHITE);
+                                                    dataSet.setValueTextSize(15);
+                                                    chart.setDrawBarShadow(true);
+                                                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                                                    chart.animateY(3000, Easing.EaseInOutBounce);
+                                                    chart.invalidate();
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                                }
+                                            });
                                         }
                                     });
+                                } catch (Exception e) {
+                                    Log.d(TAG, e.toString());
                                 }
-                            });
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+        }
     }
 
     private int getIndex(Spinner spinner, String myString) {

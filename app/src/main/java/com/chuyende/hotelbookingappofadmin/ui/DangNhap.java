@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.model.Document;
+
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class DangNhap extends AppCompatActivity {
 
@@ -52,26 +55,30 @@ public class DangNhap extends AppCompatActivity {
             } else if (tenDangNhap.isEmpty() && matKhau.isEmpty()) {
                 Toast.makeText(DangNhap.this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
             } else if (!(tenDangNhap.isEmpty() && !matKhau.isEmpty())) {
-                db.collection("TaiKhoanAdmin").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                String username = edtTenDangNhap.getText().toString().trim();
-                                String pass = edtMatKhau.getText().toString().trim();
-                                if (doc.getString("tenTaiKhoan").equalsIgnoreCase(username) && doc.getString("matKhau").equalsIgnoreCase(pass)) {
-                                    Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intoMenu = new Intent(DangNhap.this, Menu.class);
-                                    startActivity(intoMenu);
-                                } else {
-                                    Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                try {
+                    db.collection("TaiKhoanAdmin").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot doc : task.getResult()) {
+                                    String username = edtTenDangNhap.getText().toString().trim();
+                                    String pass = edtMatKhau.getText().toString().trim();
+                                    if (doc.getString("tenTaiKhoan").equalsIgnoreCase(username) && doc.getString("matKhau").equalsIgnoreCase(pass)) {
+                                        Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                        Intent intoMenu = new Intent(DangNhap.this, Menu.class);
+                                        startActivity(intoMenu);
+                                    } else {
+                                        Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
+                            } else {
+                                Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
             } else {
                 Toast.makeText(DangNhap.this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
             }
