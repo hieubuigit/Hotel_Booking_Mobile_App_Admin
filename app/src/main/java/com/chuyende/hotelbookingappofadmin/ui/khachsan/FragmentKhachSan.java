@@ -73,7 +73,12 @@ public class FragmentKhachSan extends Fragment {
     ArrayList<TaiKhoanKhachSan> dataTKKhachSan;
 
 
+
     private KhachSanViewModel dashboardViewModel;
+
+
+
+
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
@@ -220,6 +225,9 @@ public class FragmentKhachSan extends Fragment {
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         rvKhachSan = root.findViewById(R.id.rvKhachSan);
 
+
+
+
         getDataAndFilterKhachSan();
         dbTinhThanh.readAllDataTinhThanhPho(new CallBackListTinhThanh() {
             @Override
@@ -334,4 +342,6 @@ public class FragmentKhachSan extends Fragment {
             }
         });
     }
+
+
 }

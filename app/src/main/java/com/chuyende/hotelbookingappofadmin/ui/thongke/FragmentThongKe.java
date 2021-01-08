@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -50,7 +51,9 @@ public class FragmentThongKe extends Fragment {
     BarChart chartDoanhThuAdmin;
 
     Locale localeVN = new Locale("vi", "VN");
-    NumberFormat currencyVN = NumberFormat.getCurrencyInstance((localeVN));
+    Currency currencyVN = Currency.getInstance(localeVN);
+    NumberFormat currencyVNFormater = NumberFormat.getInstance(localeVN);
+    String symbol = currencyVN.getSymbol(localeVN);
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class FragmentThongKe extends Fragment {
                                         }
                                     }
                                     Log.d(TAG, "tổng doanh thu: " + doanhThu);
-                                    tvDoanhThuAdmin.setText(currencyVN.format(doanhThu));
+                                    tvDoanhThuAdmin.setText(currencyVNFormater.format(doanhThu) + " " + symbol);
                                     entries.add(new BarEntry(0, doanhThu));
                                     BarDataSet dataSet = new BarDataSet(entries, "Dữ liệu Đã đặt");
                                     BarData data = new BarData(dataSet);
