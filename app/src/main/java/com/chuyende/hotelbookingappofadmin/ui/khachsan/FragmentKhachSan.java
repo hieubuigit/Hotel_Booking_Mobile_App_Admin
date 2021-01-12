@@ -229,6 +229,7 @@ public class FragmentKhachSan extends Fragment {
 
 
         getDataAndFilterKhachSan();
+
         dbTinhThanh.readAllDataTinhThanhPho(new CallBackListTinhThanh() {
             @Override
             public void onDataGetListTinhThanh(ArrayList<TinhThanhPho> listTinhThanh) {
@@ -297,10 +298,14 @@ public class FragmentKhachSan extends Fragment {
                 for (KhachSan ks : listKhachSan) {
                     dataKhachSan.add(ks);
                 }
+
+                /// set adapter for recyclerview
                 adapterKhachSan = new AdapterKhachSan(dataKhachSan, getActivity(), listener);
                 rvKhachSan.setAdapter(adapterKhachSan);
                 adapterKhachSan.notifyDataSetChanged();
 
+
+                /// filter by spinner tinh/thanh and search bar
                 svKhachSan.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
