@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
 import com.chuyende.hotelbookingappofadmin.data_model.Phong;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListPhongByKSID;
 import com.google.firebase.firestore.DocumentSnapshot;

@@ -73,11 +73,7 @@ public class FragmentKhachSan extends Fragment {
     ArrayList<TaiKhoanKhachSan> dataTKKhachSan;
 
 
-
     private KhachSanViewModel dashboardViewModel;
-
-
-
 
 
     @Override
@@ -206,7 +202,7 @@ public class FragmentKhachSan extends Fragment {
                             }
                         }
                     });
-                }catch (Exception e) {
+                } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
                 return true;
@@ -224,8 +220,6 @@ public class FragmentKhachSan extends Fragment {
         spLocTinhThanh = root.findViewById(R.id.spLocTinhThanh);
         btnDangXuat = root.findViewById(R.id.btnDangXuat);
         rvKhachSan = root.findViewById(R.id.rvKhachSan);
-
-
 
 
         getDataAndFilterKhachSan();

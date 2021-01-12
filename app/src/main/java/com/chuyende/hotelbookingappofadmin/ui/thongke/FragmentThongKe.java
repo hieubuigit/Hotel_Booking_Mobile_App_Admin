@@ -22,19 +22,15 @@ import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListThang;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListThanhToan;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.HashMap;
 import java.util.Locale;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;

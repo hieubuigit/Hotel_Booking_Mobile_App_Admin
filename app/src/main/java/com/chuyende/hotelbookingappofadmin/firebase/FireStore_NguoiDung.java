@@ -4,9 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofadmin.data_model.KhachSan;
 import com.chuyende.hotelbookingappofadmin.data_model.NguoiDung;
-import com.chuyende.hotelbookingappofadmin.interfaces.CallBackKhachSanByID;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackListNguoiDung;
 import com.chuyende.hotelbookingappofadmin.interfaces.CallBackNguoiDungByID;
 import com.google.firebase.firestore.DocumentSnapshot;

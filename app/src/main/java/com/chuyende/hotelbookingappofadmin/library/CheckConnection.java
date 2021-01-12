@@ -1,13 +1,10 @@
 package com.chuyende.hotelbookingappofadmin.library;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
-import android.os.Build;
 
 import com.chuyende.hotelbookingappofadmin.ui.DangNhap;
 
